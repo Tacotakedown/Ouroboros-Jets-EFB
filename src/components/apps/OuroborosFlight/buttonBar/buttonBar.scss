@@ -1,0 +1,21 @@
+:root {
+	--main-branding: #2a2fff;
+	--highlight: #007eff;
+	--box-purple: #36185c;
+	--text-purple: #a359ff;
+	--slider-blue: #0042ff;
+}
+.button-bar {
+	background-color: var(--main-branding);
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	right: 20px;
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+	display: flex;
+	flex-direction: row;
+	height: 165px;
+	border-radius: 7px;
+	// background-color: var(--main-branding);
+}

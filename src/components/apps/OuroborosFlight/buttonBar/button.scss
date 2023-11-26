@@ -1,0 +1,15 @@
+.button {
+	padding: 10px;
+	width: 195px;
+}
+.button-contents {
+	position: absolute;
+	top: 10px;
+	height: 145px;
+	width: 195px;
+	display: flex;
+	font-size: 28px;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
