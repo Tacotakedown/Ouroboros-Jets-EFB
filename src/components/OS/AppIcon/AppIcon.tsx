@@ -4,6 +4,7 @@ import {
 	UseNaigate,
 	LoadContext,
 } from '../../../hooks/OsRouter';
+import './AppIcon.scss';
 
 type T_AppIconProps = {
 	icon: JSX.Element;
@@ -22,7 +23,7 @@ export const AppIcon: FC<T_AppIconProps> = (
 			className="app-icon-wrapper"
 		>
 			<div className="app-icon-image-container">{props.icon}</div>
-			<div className="app-ison-text">{props.text}</div>
+			<div className="app-icon-text">{props.text}</div>
 		</div>
 	);
 };
