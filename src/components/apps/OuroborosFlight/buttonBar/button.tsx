@@ -20,7 +20,13 @@ export const ButtonBarButton: FC<T_ButtonBarButtonProps> = (
 
 	const clickHandler = (page: number) => {
 		updateState({
-			state: { ouroborosFlight: { page: page, currentChart: '' } },
+			...state,
+			state: {
+				ouroborosFlight: {
+					page: page,
+					currentChart: state?.ouroborosFlight.currentChart,
+				},
+			},
 		});
 	};
 

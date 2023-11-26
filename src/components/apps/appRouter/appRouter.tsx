@@ -7,7 +7,7 @@ import React, { useContext, createContext, useState } from 'react';
 type T_AppContextType = {
 	ouroborosFlight: {
 		page: number;
-		currentChart: string;
+		currentChart: string | undefined;
 	};
 };
 

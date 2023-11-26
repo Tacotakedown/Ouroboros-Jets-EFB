@@ -5,11 +5,6 @@ import './OuroborosFlight.scss';
 
 export const OuroborosFlight = () => {
 	const { state, updateState } = useContext(AppContext);
-	const clickHandler = (page: number) => {
-		updateState({
-			state: { ouroborosFlight: { page: page, currentChart: '' } },
-		});
-	};
 
 	const HandlePage = (): JSX.Element => {
 		switch (state?.ouroborosFlight.page) {
