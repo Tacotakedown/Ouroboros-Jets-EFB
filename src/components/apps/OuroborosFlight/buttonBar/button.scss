@@ -1,15 +1,18 @@
 .button {
 	padding: 10px;
 	width: 195px;
+	border-radius: 20px;
 }
 .button-contents {
-	position: absolute;
-	top: 10px;
-	height: 145px;
+	height: 100%;
 	width: 195px;
 	display: flex;
 	font-size: 28px;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+}
+.active {
+	background-color: white;
+	color: black;
 }

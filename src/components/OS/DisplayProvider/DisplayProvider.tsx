@@ -1,11 +1,12 @@
 import React from 'react';
 import { OsHome } from '../Home/Home';
-import { AppRouter } from '../appRouter/appRouter';
+import { AppRouter } from '../../apps/appRouter/appRouter';
 import {
 	LoadContext,
 	UseNaigate,
 	OsRouterContext,
 } from '../../../hooks/OsRouter';
+import { OuroborosFlight } from '../../apps/OuroborosFlight/OuroborosFlight';
 
 export const DisplayProvider = () => {
 	const OSContext = LoadContext(OsRouterContext);
@@ -14,7 +15,7 @@ export const DisplayProvider = () => {
 			case 0:
 				return <OsHome />;
 			case 1:
-				return <div>ForeFlight</div>;
+				return <OuroborosFlight />;
 			case 2:
 				return <div>Chrome</div>;
 			default:

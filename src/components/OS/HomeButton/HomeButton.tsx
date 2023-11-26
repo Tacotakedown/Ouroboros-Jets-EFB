@@ -15,6 +15,7 @@ export const HomeButton = () => {
 		<div
 			className="home-button-debug"
 			onClick={() => UseNaigate(OSRouter, 0)}
+			onDoubleClick={() => console.log('app selector menu fired')}
 		>
 			<div>HOME</div>
 		</div>

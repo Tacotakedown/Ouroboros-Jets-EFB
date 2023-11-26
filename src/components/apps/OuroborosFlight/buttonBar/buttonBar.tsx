@@ -2,17 +2,26 @@ import React from 'react';
 import { ButtonBarButton } from './button';
 import './buttonBar.scss';
 
-export const ButtonBar = (): JSX.Element => {
+type T_ButtonBarProps = {
+	recentButton: {
+		text: string;
+		to: number;
+		icon?: JSX.Element;
+	};
+};
+export const ButtonBar: React.FC<T_ButtonBarProps> = (
+	props: T_ButtonBarProps
+): JSX.Element => {
 	return (
 		<div className="button-bar">
-			<ButtonBarButton text="Home" to={0} />
-			<ButtonBarButton text="Airports" to={1} />
-			<ButtonBarButton text="Flight Plan" to={2} />
-			<ButtonBarButton text="Weight/Balance" to={3} />
-			<ButtonBarButton text="Browser" to={4} />
+			<ButtonBarButton text="Airports" to={0} />
+			<ButtonBarButton text="Maps" to={1} />
+			<ButtonBarButton text="Plates" to={2} />
+			{/* <ButtonBarButton text="Documents" to={3} /> */}
+			<ButtonBarButton text="Imagery" to={3} />
+			<ButtonBarButton text="ScratchPads" to={4} />
 			<ButtonBarButton text="Checklists" to={5} />
-			<ButtonBarButton text="Weather" to={6} />
-			<ButtonBarButton text="Scratchpad" to={7} />
+			<ButtonBarButton text="W & B" to={6} />
 		</div>
 	);
 };
