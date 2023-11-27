@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../appRouter/appRouter';
 import { ApiReturn, apiReturnType } from './airportApiData';
 
-export const Airports = () => {
+type T_AirportsProps = {};
+
+export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps) => {
 	const { state, updateState } = useContext(AppContext);
 	const [data, setData] = useState<apiReturnType>(ApiReturn);
 	const apiToken = process.env.AIRPORT_API_KEY;
