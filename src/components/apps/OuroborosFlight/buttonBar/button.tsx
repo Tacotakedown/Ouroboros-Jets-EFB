@@ -25,6 +25,7 @@ export const ButtonBarButton: FC<T_ButtonBarButtonProps> = (
 				ouroborosFlight: {
 					page: page,
 					currentChart: state?.ouroborosFlight.currentChart,
+					currentAirport: state?.ouroborosFlight.currentAirport,
 				},
 			},
 		});

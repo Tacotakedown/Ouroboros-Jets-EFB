@@ -6,8 +6,9 @@ import React, { useContext, createContext, useState } from 'react';
 
 type T_AppContextType = {
 	ouroborosFlight: {
-		page: number;
+		page: number | undefined;
 		currentChart: string | undefined;
+		currentAirport: string | undefined;
 	};
 };
 
@@ -18,7 +19,7 @@ type AppState = {
 
 const defaultState: AppState = {
 	state: {
-		ouroborosFlight: { page: 0, currentChart: '' },
+		ouroborosFlight: { page: 0, currentChart: '', currentAirport: 'KPHX' },
 	},
 	updateState: (newState?: Partial<AppState>) => {},
 };
@@ -27,6 +28,7 @@ const defaultAppContextValues: T_AppContextType = {
 	ouroborosFlight: {
 		page: 0,
 		currentChart: '',
+		currentAirport: 'KPHX',
 	},
 };
 

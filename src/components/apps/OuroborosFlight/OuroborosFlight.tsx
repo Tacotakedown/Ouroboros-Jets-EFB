@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { ButtonBar } from './buttonBar/buttonBar';
 import { AppContext, LoadAppContext } from '../appRouter/appRouter';
 import './OuroborosFlight.scss';
+import { Airports } from './airports/airports';
 
 export const OuroborosFlight = () => {
 	const { state, updateState } = useContext(AppContext);
@@ -9,7 +10,7 @@ export const OuroborosFlight = () => {
 	const HandlePage = (): JSX.Element => {
 		switch (state?.ouroborosFlight.page) {
 			case 0:
-				return <div>airports</div>;
+				return <Airports />;
 			case 1:
 				return <div>maps</div>;
 			case 2:
@@ -28,13 +29,22 @@ export const OuroborosFlight = () => {
 		}
 	};
 	const [appOpen, setAppOpen] = useState(false);
+	const [loading, setLoading] = useState(true);
+
 	useEffect(() => {
 		setAppOpen(true);
+		setTimeout(() => {
+			setLoading(false);
+		}, 1000);
 
 		return () => setAppOpen(false);
 	}, []);
 
-	return (
+	return loading ? (
+		<div className={`ouroboros-flight-root ${appOpen ? 'open' : 'closed'}`}>
+			Loading...
+		</div>
+	) : (
 		<div className={`ouroboros-flight-root ${appOpen ? 'open' : 'closed'}`}>
 			<div className="ouroboros-flight-container">{HandlePage()}</div>
 			<ButtonBar recentButton={{ to: 8, text: '' }} />
