@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-export const Header = () => {
-	return (
-		<div>
-			<div>header</div>
-		</div>
-	);
-};
+export const Header = (): JSX.Element => {
+  return (
+    <div>
+      <div>header</div>
+    </div>
+  )
+}
