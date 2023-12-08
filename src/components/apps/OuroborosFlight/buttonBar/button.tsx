@@ -8,9 +8,7 @@ type T_ButtonBarButtonProps = {
   icon?: React.ReactElement
 }
 
-export const ButtonBarButton: FC<T_ButtonBarButtonProps> = (
-  props: T_ButtonBarButtonProps
-): JSX.Element => {
+export const ButtonBarButton: FC<T_ButtonBarButtonProps> = (props: T_ButtonBarButtonProps): JSX.Element => {
   const { state, updateState } = useContext(AppContext)
 
   const isActive = (): boolean => {
@@ -19,13 +17,14 @@ export const ButtonBarButton: FC<T_ButtonBarButtonProps> = (
   }
 
   const clickHandler = (page: number): void => {
+    console.log('Button clicked:', page)
     updateState({
-      ...state,
       state: {
+        ...state,
         ouroborosFlight: {
           page: page,
-          currentChart: state?.ouroborosFlight.currentChart,
-          currentAirport: state?.ouroborosFlight.currentAirport
+          currentAirport: state?.ouroborosFlight?.currentAirport,
+          currentChart: state?.ouroborosFlight?.currentChart
         }
       }
     })

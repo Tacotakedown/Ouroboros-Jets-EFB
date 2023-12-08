@@ -1,11 +1,28 @@
 import React from 'react'
 import { OsHome } from '../Home/Home'
-import { AppRouter } from '../../apps/appRouter/appRouter'
 import { LoadContext, OsRouterContext } from '../../../hooks/OsRouter'
 import { OuroborosFlight } from '../../apps/OuroborosFlight/OuroborosFlight'
+import { AppContext } from '../../apps/appRouter/appRouter'
 
 export const DisplayProvider = (): JSX.Element => {
   const OSContext = LoadContext(OsRouterContext)
+  const { state, updateState } = React.useContext(AppContext)
+
+  React.useEffect(() => {
+    if (state === undefined) {
+      // Manually set the state to default values i dont know why it wasnt defined but this fixes it ig
+      updateState({
+        state: {
+          ouroborosFlight: {
+            page: 0,
+            currentChart: 'defaultChart',
+            currentAirport: 'KPHX'
+          }
+        }
+      })
+    }
+  }, [state, updateState])
+
   const OsAppSwitch = (): JSX.Element => {
     switch (OSContext.page) {
       case 0:
@@ -19,11 +36,5 @@ export const DisplayProvider = (): JSX.Element => {
     }
   }
 
-  return (
-    <div>
-      <AppRouter>
-        <div>{OsAppSwitch()}</div>
-      </AppRouter>
-    </div>
-  )
+  return OsAppSwitch()
 }

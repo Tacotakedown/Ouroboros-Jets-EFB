@@ -4,15 +4,19 @@ import { Render } from './hooks/render'
 import { EFBRouter } from './hooks/OsRouter'
 import { DisplayProvider } from './components/OS/DisplayProvider/DisplayProvider'
 import { HomeButton } from './components/OS/HomeButton/HomeButton'
+import { AppRouter } from './components/apps/appRouter/appRouter'
 
 export const EFB = (): JSX.Element => {
+  console.log('EFB - Rendering...')
   return (
-    <EFBRouter>
-      <div className="ipadContainer">
-        <DisplayProvider />
-        <HomeButton />
-      </div>
-    </EFBRouter>
+    <AppRouter>
+      <EFBRouter>
+        <div className="ipadContainer">
+          <DisplayProvider />
+          <HomeButton />
+        </div>
+      </EFBRouter>
+    </AppRouter>
   )
 }
 

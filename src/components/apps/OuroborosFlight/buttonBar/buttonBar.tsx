@@ -9,9 +9,7 @@ type T_ButtonBarProps = {
     icon?: JSX.Element
   }
 }
-export const ButtonBar: React.FC<T_ButtonBarProps> = (
-  props: T_ButtonBarProps
-): JSX.Element => {
+export const ButtonBar: React.FC<T_ButtonBarProps> = (props: T_ButtonBarProps): JSX.Element => {
   return (
     <div className="button-bar">
       <ButtonBarButton text="Airports" to={0} />

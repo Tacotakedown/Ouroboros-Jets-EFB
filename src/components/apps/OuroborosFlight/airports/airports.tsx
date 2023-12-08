@@ -2,16 +2,16 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../appRouter/appRouter'
 import { type ApiReturnType } from './airportApiData'
 import { ApiReturn } from './airportApiData'
+import { Frequencies } from './components/frequencies'
 
 type T_AirportsProps = {
   children?: JSX.Element
 }
 
-export const Airports: React.FC<T_AirportsProps> = (
-  props: T_AirportsProps
-): JSX.Element => {
+export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX.Element => {
   const { state, updateState } = useContext(AppContext)
   const [data, setData] = useState<ApiReturnType>(ApiReturn)
+  const [airport, setAirport] = useState<string>(state?.ouroborosFlight.currentAirport || '')
   const apiToken = process.env.AIRPORT_API_KEY
   const changeAirport = (airport: string): void => {
     updateState({
@@ -34,9 +34,7 @@ export const Airports: React.FC<T_AirportsProps> = (
       try {
         if (state?.ouroborosFlight.currentAirport === undefined) return
 
-        const response = await fetch(
-          urlBulder(state.ouroborosFlight.currentAirport)
-        )
+        const response = await fetch(urlBulder(state.ouroborosFlight.currentAirport))
         const json = await response.json()
 
         setData(json)
@@ -49,18 +47,36 @@ export const Airports: React.FC<T_AirportsProps> = (
     })
   }, [state?.ouroborosFlight.currentAirport])
 
+  const getFrequenies = (): JSX.Element[] => {
+    return data.freqs.map((freq, index) => {
+      return <Frequencies key={index} frequency={freq} />
+    })
+  }
+
   return (
     <div>
       <div
+        style={{ color: 'red' }}
         onClick={() => {
-          changeAirport('KPHX')
+          changeAirport(airport)
         }}
       >
-        {JSON.stringify(data)}
-        {state?.ouroborosFlight.currentAirport === undefined
-          ? 'please select and airport'
-          : `selected airport :${state.ouroborosFlight.currentAirport}`}
+        Click Here to Search (TEMP)
       </div>
+      <form>
+        <label>
+          Enter your Airport:
+          <input
+            type="text"
+            style={{ fontSize: '30px' }}
+            value={airport}
+            onChange={(e) => {
+              setAirport(e.target.value)
+            }}
+          />
+        </label>
+      </form>
+      {getFrequenies()}
     </div>
   )
 }

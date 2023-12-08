@@ -3,11 +3,7 @@
  */
 import React from 'react'
 import './HomeButton.scss'
-import {
-  LoadContext,
-  OsRouterContext,
-  UseNaigate
-} from '../../../hooks/OsRouter'
+import { LoadContext, OsRouterContext, UseNaigate } from '../../../hooks/OsRouter'
 
 export const HomeButton = (): JSX.Element => {
   const OSRouter = LoadContext(OsRouterContext)
@@ -16,9 +12,6 @@ export const HomeButton = (): JSX.Element => {
       className="home-button-debug"
       onClick={() => {
         UseNaigate(OSRouter, 0)
-      }}
-      onDoubleClick={() => {
-        console.log('app selector menu fired')
       }}
     >
       <div>HOME</div>

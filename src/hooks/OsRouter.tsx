@@ -7,27 +7,16 @@ export const OsRouterContext = createContext<any>(0)
 type T_EFBRouterProps = {
   children: JSX.Element
 }
-export const EFBRouter: React.FC<T_EFBRouterProps> = (
-  props: T_EFBRouterProps
-): JSX.Element => {
-  const [page, setPage] = useState(0)
+export const EFBRouter: React.FC<T_EFBRouterProps> = (props: T_EFBRouterProps): JSX.Element => {
+  const [page, setPage] = useState<number>(0)
 
-  return (
-    <OsRouterContext.Provider value={{ page, setPage }}>
-      {props.children}
-    </OsRouterContext.Provider>
-  )
+  return <OsRouterContext.Provider value={{ page, setPage }}>{props.children}</OsRouterContext.Provider>
 }
-export const LoadContext = (
-  context: React.Context<any>
-): { page: any; setPage: any } => {
+export const LoadContext = (context: React.Context<any>): { page: any; setPage: any } => {
   const { page, setPage } = useContext(OsRouterContext)
   return { page: page, setPage: setPage }
 }
-export const UseNaigate = (
-  context: { page: any; setPage: any },
-  to: number
-): void => {
+export const UseNaigate = (context: { page: any; setPage: any }, to: number): void => {
   if (context.page === to) return
   context.setPage(to)
 }

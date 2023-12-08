@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { ButtonBar } from './buttonBar/buttonBar'
 import { AppContext } from '../appRouter/appRouter'
 import './OuroborosFlight.scss'
 import { Airports } from './airports/airports'
 
 export const OuroborosFlight = (): JSX.Element => {
-  const { state } = useContext(AppContext)
+  const { state } = React.useContext(AppContext)
 
   const HandlePage = (): JSX.Element => {
     switch (state?.ouroborosFlight.page) {
@@ -28,27 +28,18 @@ export const OuroborosFlight = (): JSX.Element => {
         return <></>
     }
   }
-  const [appOpen, setAppOpen] = useState(false)
-  const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    setAppOpen(true)
-    setTimeout(() => {
-      setLoading(false)
-    }, 1000)
+  const [loading] = useState(false)
 
-    return () => {
-      setAppOpen(false)
-    }
-  }, [])
+  console.log('OuroborosFlight - Context state:', state)
+  console.log('OuroborosFlight - Page:', state?.ouroborosFlight?.page)
 
   return loading ? (
-    <div className={`ouroboros-flight-root ${appOpen ? 'open' : 'closed'}`}>
-      Loading...
-    </div>
+    <div className={`ouroboros-flight-root`}>Loading...</div>
   ) : (
-    <div className={`ouroboros-flight-root ${appOpen ? 'open' : 'closed'}`}>
+    <div className={`ouroboros-flight-root`}>
       <div className="ouroboros-flight-container">{HandlePage()}</div>
+      <div></div>
       <ButtonBar recentButton={{ to: 8, text: '' }} />
     </div>
   )

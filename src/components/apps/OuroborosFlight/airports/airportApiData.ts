@@ -148,15 +148,14 @@ export type ApiReturnType = {
     | {}
   ]
   freqs: [
-    | {
-        id: string | undefined
-        airport_ref: string | undefined
-        airport_ident: string | undefined
-        type: string | undefined
-        description: string | undefined
-        frequency_mhz: string | undefined
-      }
-    | {}
+    {
+      id: string | undefined
+      airport_ref: string | undefined
+      airport_ident: string | undefined
+      type: string | undefined
+      description: string | undefined
+      frequency_mhz: string | undefined
+    }
   ]
   country: {
     id: string | undefined

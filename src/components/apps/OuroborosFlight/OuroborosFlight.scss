@@ -1,19 +1,19 @@
 .ouroboros-flight-root {
-	height: 1536px;
-	width: 2048px;
-	display: flex;
-	flex-direction: column;
+  height: 1536px;
+  width: 2048px;
+  display: flex;
+  flex-direction: column;
 }
 .ouroboros-flight-container {
-	height: 100%;
-	background-color: rgba($color: aqua, $alpha: 0.1);
+  height: 100%;
+  // background-color: rgba($color: aqua, $alpha: 0.1);
 }
 
 .open {
-	transform: scale(1);
-	transition: ease-in-out 0.3s;
+  transform: scale(1);
+  transition: ease-in-out 0.3s;
 }
 .closed {
-	transform: scale(0.1);
-	content: '';
+  transform: scale(0.1);
+  content: '';
 }

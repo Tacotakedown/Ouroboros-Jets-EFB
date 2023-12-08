@@ -20,8 +20,13 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: ['react', 'react-refresh'],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   rules: {
-    'react-refresh/only-export-components': 'warn',
+    'react-refresh/only-export-components': 'error',
     '@typescript-eslint/consistent-type-imports': ['error'],
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     '@typescript-eslint/ban-types': 'off',
