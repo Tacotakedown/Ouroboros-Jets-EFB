@@ -1,5 +1,5 @@
 .info-button-bar-button {
-  background-color: #0f1925;
+  background-color: var(--darkPurple);
   width: 280px;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
@@ -13,15 +13,19 @@
   display: flex;
   flex-direction: row;
   position: absolute;
-  width: 1408px;
+  width: 1406px;
   top: 692px;
   justify-content: space-around;
   height: 65px;
   left: 640px;
 
-  background-color: #132231;
+  background-color: var(--notAsDarkBGColor);
 }
 
 .info-button-bar-button-active {
-  background-color: #1e3650;
+  background-color: var(--darkerBlue);
+  box-shadow:
+    inset 0 2px var(--lightBlue),
+    inset 2px 2px var(--lightBlue),
+    inset -2px 2px var(--lightBlue);
 }

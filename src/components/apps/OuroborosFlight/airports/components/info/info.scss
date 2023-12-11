@@ -1,20 +1,29 @@
 .info-buttons-wrapper {
-  background-color: #0f1925;
+  background-color: var(--veryVeryDarkBlue);
+  border-top-left-radius: 20px;
 }
 .info-wrapper {
   display: flex;
   flex-direction: row;
   padding: 60px 40px 0px 40px;
-  background-color: #1e3650;
+  background-color: var(--darkerBlue);
   // background-color: red;
 
   position: absolute;
   width: 1328px;
   top: 756px;
   left: 640px;
-  height: 627px;
+  height: 628px;
 }
 .frequency-display {
-  background-color: #0f1925;
+  background-color: var(--veryVeryDarkBlue);
   width: 500px;
+  border-top-right-radius: 20px;
+  padding-right: 20px;
+}
+.info-buttons-title {
+  padding: 10px;
+}
+.frequency-type-title {
+  padding: 10px;
 }

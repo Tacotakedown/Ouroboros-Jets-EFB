@@ -4,11 +4,12 @@
   width: 640px;
   height: 1304px;
 
-  background-color: #0f1925;
+  background-color: var(--containerBackground);
 }
 .airports-favorites-title {
-  background-color: #1e3653;
-  border-top: 1px solid rgb(80, 81, 104);
+  background-color: var(--backgroundColor);
+  border-bottom: 1px solid var(--lightPurple);
+
   height: 80px;
   font-size: 40px;
   display: flex;
@@ -21,6 +22,6 @@
 }
 .airports-favorites-list-item {
   padding: 30px;
-  background-color: #132231;
-  border-bottom: 1px solid rgb(80, 81, 104);
+  background-color: var(--backgroundColor);
+  border-bottom: 1px solid var(--notSoLightPurple);
 }

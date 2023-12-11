@@ -16,7 +16,7 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
   const { state, updateState } = useContext(AppContext)
   const [airportsState, setAirportsState] = useState<number>(0)
   const [data, setData] = useState<ApiReturnType>(ApiReturn)
-  const [airport, setAirport] = useState<string>(state?.ouroborosFlight.currentAirport || '')
+  const [airport, setAirport] = useState<string>(state?.ouroborosFlight.currentAirport ?? '')
 
   const apiToken = process.env.AIRPORT_API_KEY
   const changeAirport = (airport: string): void => {
@@ -26,12 +26,46 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
         ouroborosFlight: {
           page: state?.ouroborosFlight.page,
           currentChart: state?.ouroborosFlight.currentChart,
-          currentAirport: airport
+          currentAirport: airport,
+          favorites: state?.ouroborosFlight.favorites
         }
       }
     })
   }
-
+  const addFavorite = (airport: string): void => {
+    const favorites = state?.ouroborosFlight.favorites ?? []
+    favorites.push(airport)
+    updateState({
+      ...state,
+      state: {
+        ouroborosFlight: {
+          page: state?.ouroborosFlight.page,
+          currentChart: state?.ouroborosFlight.currentChart,
+          currentAirport: state?.ouroborosFlight.currentAirport,
+          favorites: favorites
+        }
+      }
+    })
+  }
+  const removeStringFromArray = (array: string[], string: string): string[] => {
+    const newArray = array.filter((item) => item !== string)
+    return newArray
+  }
+  const removeFavorite = (airport: string): void => {
+    const favorites = state?.ouroborosFlight.favorites ?? []
+    const newFavorites = removeStringFromArray(favorites, airport)
+    updateState({
+      ...state,
+      state: {
+        ouroborosFlight: {
+          page: state?.ouroborosFlight.page,
+          currentChart: state?.ouroborosFlight.currentChart,
+          currentAirport: state?.ouroborosFlight.currentAirport,
+          favorites: newFavorites
+        }
+      }
+    })
+  }
   const urlBulder = (ICAO: string): string => {
     const Url = `https://airportdb.io/api/v1/airport/${ICAO}?apiToken=${apiToken}`
     return Url
@@ -75,8 +109,13 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
     <div>
       <AirportsHeader setAirport={setAirport} airport={airport} changeAirport={changeAirport} />
       <InfoButtonBar state={airportsState} setState={setAirportsState} />
-      <AirportsFavorites favorites={['KIWA', 'KSDL', 'KCHD']} />
-      <AirportDisplay airport="KIWA" />
+      <AirportsFavorites setAirport={changeAirport} favorites={state?.ouroborosFlight.favorites ?? []} />
+      <AirportDisplay
+        removeFavorite={removeFavorite}
+        favorites={state?.ouroborosFlight.favorites ?? []}
+        addFavorite={addFavorite}
+        airport={data?.ident ?? ''}
+      />
       {getPage()}
     </div>
   )

@@ -14,12 +14,7 @@ export const ButtonBar: React.FC<T_ButtonBarProps> = (props: T_ButtonBarProps): 
   const [activeButton, setActiveButton] = React.useState<number>(0)
   return (
     <div className="button-bar">
-      <ButtonBarButton
-        setActiveButton={setActiveButton}
-        text="Airports"
-        to={0}
-        icon={<AirportsIcon width={20} invertColors={activeButton === 0} />}
-      />
+      <ButtonBarButton setActiveButton={setActiveButton} text="Airports" to={0} icon={<AirportsIcon width={20} />} />
       <ButtonBarButton setActiveButton={setActiveButton} text="Maps" to={1} />
       <ButtonBarButton setActiveButton={setActiveButton} text="Plates" to={2} />
       {/* <ButtonBarButton text="Documents" to={3} /> */}

@@ -23,8 +23,10 @@ export const FrequenciesButton: React.FC<T_FrequenciesButtonProps> = (props: T_F
         props.setState(props.to)
       }}
     >
-      <div> {props.text}</div>
-      <div>&gt;</div>
+      <div className="frequency-text">
+        <div> {props.text}</div>
+        <div>&gt;</div>
+      </div>
     </div>
   )
 }

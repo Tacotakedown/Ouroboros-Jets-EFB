@@ -5,13 +5,15 @@ type T_AppContextType = {
     page: number | undefined
     currentChart: string | undefined
     currentAirport: string | undefined
+    favorites: string[] | undefined
   }
 }
 const defaultAppContextValues: T_AppContextType = {
   ouroborosFlight: {
     page: 0,
     currentChart: 'a',
-    currentAirport: 'KPHX'
+    currentAirport: 'KPHX',
+    favorites: []
   }
 }
 

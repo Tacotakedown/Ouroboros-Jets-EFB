@@ -33,7 +33,8 @@ export const Info: React.FC<T_InfoProps> = (props: T_InfoProps): JSX.Element => 
   return (
     <div className="info-wrapper">
       <div className="info-buttons-wrapper">
-        Frequencies
+        <div className="info-buttons-title">Frequencies</div>
+
         <FrequenciesButton
           state={frequencyType}
           setState={updateFrequencyType}
@@ -78,7 +79,7 @@ export const Info: React.FC<T_InfoProps> = (props: T_InfoProps): JSX.Element => 
         />
       </div>
       <div className="frequency-display">
-        <div> {getStringFromFreqType(frequencyType)}</div>
+        <div className="frequency-type-title"> {getStringFromFreqType(frequencyType)}</div>
         {getFrequenies(frequencyType)}
       </div>
     </div>

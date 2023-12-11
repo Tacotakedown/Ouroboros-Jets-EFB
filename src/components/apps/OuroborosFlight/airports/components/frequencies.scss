@@ -5,8 +5,11 @@
   font-size: 35px;
   justify-content: space-between;
   color: white;
-  border-top: 1px solid gray;
+  border-top: 1px solid var(--notSoLightPurple);
+  border-bottom: 1px solid var(--notSoLightPurple);
+  padding: 10px;
 }
+
 .frequency-type-box {
   font-size: 25px;
   color: gray;
