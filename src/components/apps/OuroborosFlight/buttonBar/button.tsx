@@ -6,6 +6,7 @@ type T_ButtonBarButtonProps = {
   text: string
   to: number
   icon?: React.ReactElement
+  setActiveButton: (button: number) => void
 }
 
 export const ButtonBarButton: FC<T_ButtonBarButtonProps> = (props: T_ButtonBarButtonProps): JSX.Element => {
@@ -34,6 +35,7 @@ export const ButtonBarButton: FC<T_ButtonBarButtonProps> = (props: T_ButtonBarBu
     <div
       onClick={() => {
         clickHandler(props.to)
+        props.setActiveButton(props.to)
       }}
       className={`${isActive() ? 'active' : ''} button`}
     >

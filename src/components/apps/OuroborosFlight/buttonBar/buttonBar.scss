@@ -1,17 +1,17 @@
 :root {
-	--main-branding: #2a2fff;
-	--highlight: #007eff;
-	--box-purple: #36185c;
-	--text-purple: #a359ff;
-	--slider-blue: #0042ff;
+  --main-branding: #0f1925;
+  --highlight: #007eff;
+  --box-purple: #36185c;
+  --text-purple: #a359ff;
+  --slider-blue: #0042ff;
 }
 .button-bar {
-	background-color: var(--main-branding);
-	position: sticky;
-	color: white;
-	font-family: Arial, Helvetica, sans-serif;
-	display: flex;
-	flex-direction: row;
-	height: 120px;
-	// background-color: var(--main-branding);
+  background-color: var(--main-branding);
+  //   background-color: rgba($color: red, $alpha: 0.1);
+  position: sticky;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: row;
+  height: 92px;
 }

@@ -1,18 +1,18 @@
 .button {
-	padding: 10px;
-	width: 195px;
-	border-radius: 20px;
+  padding: 10px;
+  width: 180px;
+  border-radius: 10px;
 }
 .button-contents {
-	height: 100%;
-	width: 195px;
-	display: flex;
-	font-size: 28px;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  height: 100%;
+  width: 195px;
+  display: flex;
+  font-size: 25px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .active {
-	background-color: white;
-	color: black;
+  background-color: white;
+  color: black;
 }

@@ -7,7 +7,6 @@ import { HomeButton } from './components/OS/HomeButton/HomeButton'
 import { AppRouter } from './components/apps/appRouter/appRouter'
 
 export const EFB = (): JSX.Element => {
-  console.log('EFB - Rendering...')
   return (
     <AppRouter>
       <EFBRouter>

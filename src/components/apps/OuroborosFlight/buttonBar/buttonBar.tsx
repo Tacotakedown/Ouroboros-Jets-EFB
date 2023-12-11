@@ -1,6 +1,7 @@
 import React from 'react'
 import { ButtonBarButton } from './button'
 import './buttonBar.scss'
+import { AirportsIcon } from './icons/buttonBarIcons'
 
 type T_ButtonBarProps = {
   recentButton: {
@@ -10,16 +11,22 @@ type T_ButtonBarProps = {
   }
 }
 export const ButtonBar: React.FC<T_ButtonBarProps> = (props: T_ButtonBarProps): JSX.Element => {
+  const [activeButton, setActiveButton] = React.useState<number>(0)
   return (
     <div className="button-bar">
-      <ButtonBarButton text="Airports" to={0} />
-      <ButtonBarButton text="Maps" to={1} />
-      <ButtonBarButton text="Plates" to={2} />
+      <ButtonBarButton
+        setActiveButton={setActiveButton}
+        text="Airports"
+        to={0}
+        icon={<AirportsIcon width={20} invertColors={activeButton === 0} />}
+      />
+      <ButtonBarButton setActiveButton={setActiveButton} text="Maps" to={1} />
+      <ButtonBarButton setActiveButton={setActiveButton} text="Plates" to={2} />
       {/* <ButtonBarButton text="Documents" to={3} /> */}
-      <ButtonBarButton text="Imagery" to={3} />
-      <ButtonBarButton text="ScratchPads" to={4} />
-      <ButtonBarButton text="Checklists" to={5} />
-      <ButtonBarButton text="W & B" to={6} />
+      <ButtonBarButton setActiveButton={setActiveButton} text="Imagery" to={3} />
+      <ButtonBarButton setActiveButton={setActiveButton} text="ScratchPads" to={4} />
+      <ButtonBarButton setActiveButton={setActiveButton} text="Checklists" to={5} />
+      <ButtonBarButton setActiveButton={setActiveButton} text="W & B" to={6} />
     </div>
   )
 }

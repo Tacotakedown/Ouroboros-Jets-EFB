@@ -35,10 +35,10 @@ type T_AppRouterProps = {
 
 export const AppRouter: React.FC<T_AppRouterProps> = (props: T_AppRouterProps): JSX.Element => {
   const [appState, setAppState] = useState<T_AppContextType>(defaultAppContextValues)
-  console.log('AppRouter - Context Value:', appState)
+
   const updateState = (newState: Partial<AppState>): void => {
     setAppState({ ...appState, ...newState })
   }
-  console.log('AppRouter - Rendering AppContext.Provider')
+
   return <AppContext.Provider value={{ ...appState, updateState }}>{props.children}</AppContext.Provider>
 }

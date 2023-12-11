@@ -1,26 +1,26 @@
 body {
-	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-		'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-		'Helvetica Neue', sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	// background-color: black;
-	color: white;
-	font-size: 30px;
-	width: 2048px;
-	height: 1536px;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: black;
+  color: white;
+  font-size: 30px;
+  // background-image: url('./ref.png');
+  background-repeat: no-repeat;
+  width: 2048px;
+  height: 1536px;
 }
 .ipadContainer {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 2048px;
-	height: 1536px;
-	background-color: black;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 2048px;
+  height: 1536px;
+  //   background-color: black;
 }
 
 code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-		monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

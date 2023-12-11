@@ -31,9 +31,6 @@ export const OuroborosFlight = (): JSX.Element => {
 
   const [loading] = useState(false)
 
-  console.log('OuroborosFlight - Context state:', state)
-  console.log('OuroborosFlight - Page:', state?.ouroborosFlight?.page)
-
   return loading ? (
     <div className={`ouroboros-flight-root`}>Loading...</div>
   ) : (

@@ -1,0 +1,14 @@
+.frequency-button {
+  display: flex;
+  flex-direction: row;
+  width: 500px;
+  border-top: 1px solid rgb(69, 67, 67);
+  background-color: #132231;
+  height: 80px;
+  align-items: center;
+  padding: 0px 20px 0px 20px;
+  justify-content: space-between;
+}
+.active-freq {
+  background-color: rgb(2, 115, 156);
+}

@@ -1,0 +1,26 @@
+.airports-favorites {
+  position: absolute;
+  top: 140px;
+  width: 640px;
+  height: 1304px;
+
+  background-color: #0f1925;
+}
+.airports-favorites-title {
+  background-color: #1e3653;
+  border-top: 1px solid rgb(80, 81, 104);
+  height: 80px;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.airports-favorites-list {
+  display: flex;
+  flex-direction: column;
+}
+.airports-favorites-list-item {
+  padding: 30px;
+  background-color: #132231;
+  border-bottom: 1px solid rgb(80, 81, 104);
+}
