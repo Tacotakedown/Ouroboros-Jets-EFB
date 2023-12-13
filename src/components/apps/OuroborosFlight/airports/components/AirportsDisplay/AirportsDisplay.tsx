@@ -1,6 +1,7 @@
 import React from 'react'
 import './AirportsDisplay.scss'
 import { AirportInformationProvider } from './AptInformationProvider/AptInformationProvider'
+import { toast } from 'react-toastify'
 
 type T_AirportDisplayProps = {
   airport: string
@@ -19,6 +20,11 @@ export const AirportDisplay: React.FC<T_AirportDisplayProps> = (props: T_Airport
             if (props.favorites.includes(props.airport)) {
               props.removeFavorite(props.airport)
             } else {
+              if (props.favorites.length >= 12) {
+                toast('You can only have 12 favorites')
+                return
+              }
+
               props.addFavorite(props.airport)
             }
           }}
