@@ -7,6 +7,10 @@ import { InfoButtonBar } from './components/infoButtonBar/infoButtonBarButton'
 import { AirportsHeader } from './components/AirportsHeader/AirportsHeader'
 import { AirportsFavorites } from './components/FavoriteAirports/FavoriteAirports'
 import { AirportDisplay } from './components/AirportsDisplay/AirportsDisplay'
+import { Weather } from './components/weather/weather'
+import { Runway } from './components/runway/runway'
+import { Procedure } from './components/procedure/procedure'
+import { Notams } from './components/notams/notams'
 
 type T_AirportsProps = {
   children?: JSX.Element
@@ -93,13 +97,13 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
       case 0:
         return <Info data={data} />
       case 1:
-        return <div>Weather</div>
+        return <Weather airport={data?.ident ?? ''} source={'AWC'} />
       case 2:
-        return <div>Runway</div>
+        return <Runway airport={data?.ident ?? ''} />
       case 3:
-        return <div>Procedure</div>
+        return <Procedure airport={data?.ident ?? ''} />
       case 4:
-        return <div>NOTAM</div>
+        return <Notams airport={data?.ident ?? ''} />
       default:
         return <div></div>
     }
