@@ -1,3 +1,16 @@
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--backgroundColor);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--lightPurple);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--lightBlue);
+}
+
 .airports-favorites {
   position: absolute;
   top: 140px;
@@ -9,6 +22,7 @@
 .airports-favorites-title {
   background-color: var(--backgroundColor);
   border-bottom: 1px solid var(--lightPurple);
+  border-top: 1px solid var(--lightPurple);
 
   height: 80px;
   font-size: 40px;
@@ -20,8 +34,39 @@
   display: flex;
   flex-direction: column;
 }
+.airports-nearest-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: 1150px;
+}
 .airports-favorites-list-item {
   padding: 30px;
   background-color: var(--backgroundColor);
   border-bottom: 1px solid var(--notSoLightPurple);
+}
+.airports-favorites-tabs {
+  display: flex;
+  flex-direction: row;
+  width: 98%;
+  justify-content: space-around;
+  padding: 8px;
+}
+.airports-favorites-tab-button {
+  background-color: transparent;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+}
+.airports-favorites-tab-button-active {
+  border: 1px solid var(--lightBlue);
+}
+.airports-favorites-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }

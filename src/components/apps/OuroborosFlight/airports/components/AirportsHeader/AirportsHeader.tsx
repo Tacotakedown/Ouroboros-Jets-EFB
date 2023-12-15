@@ -11,7 +11,7 @@ export const AirportsHeader: React.FC<T_AirportsHeaderProps> = (props: T_Airport
   return (
     <div className="airports-header">
       <div className="airports-header-title">
-        Teabag <sub style={{ fontSize: '30px' }}>PRO</sub>
+        FlightBag <sub style={{ fontSize: '30px' }}>PRO</sub>
       </div>
       <div className="airports-header-search-group">
         <form>

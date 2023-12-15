@@ -592,3 +592,174 @@ export const notamUrlBuilder = (location: string): string => {
   if (location.length > 4) console.error('notamUrlBuilder: Expected a 4 digit ICAO code')
   return baseUrl + `notam/${location}?distance=10&` + Token
 }
+
+export type T_StationReturnType = {
+  city: string
+  country: string
+  elevation_ft: number
+  elevation_m: number
+  gps: string
+  iata: string
+  icao: string
+  latitude: number
+  local: string
+  longitude: number
+  name: string
+  note: string
+  reporting: true
+  runways: [
+    {
+      length_ft: number
+      width_ft: number
+      ident1: string
+      ident2: string
+    }
+  ]
+  state: string
+  type: string
+  website: string
+  wiki: string
+}
+
+export const sampleStation = {
+  city: '',
+  country: '',
+  elevation_ft: 0,
+  elevation_m: 0,
+  gps: '',
+  iata: '',
+  icao: '',
+  latitude: 0,
+  local: '',
+  longitude: 0,
+  name: '',
+  note: '',
+  reporting: true,
+  runways: [
+    {
+      length_ft: 0,
+      width_ft: 0,
+      ident1: '',
+      ident2: ''
+    }
+  ],
+  state: '',
+  type: '',
+  website: '',
+  wiki: ''
+}
+
+export const stationUrlBuilder = (icao: string): string => {
+  if (icao.length > 4) throw new Error('Please use ICAO formap for station api request')
+  return baseUrl + `station/${icao}` + Token
+}
+
+export const searchUrlBuilder = (text: string): string => {
+  return baseUrl + `search/station?text=${text}` + Token
+}
+
+export type T_NearestAirportReturnType = []
+export type T_Nearest = Array<{
+  coordinate_distance: number | undefined
+  kilometers: number | undefined
+  miles: number | undefined
+  nautical_miles: number | undefined
+  station:
+    | {
+        city: string | undefined
+        country: string | undefined
+        elevation_ft: number | undefined
+        elevation_m: number | undefined
+        gps: string | undefined
+        iata: string | undefined
+        icao: string | undefined
+        latitude: number | undefined
+        local: string | undefined
+        longitude: number | undefined
+        name: string | undefined
+        note: string | undefined
+        reporting: boolean | undefined
+        runways:
+          | Array<{
+              bearing1: number | undefined
+              bearing2: number | undefined
+              ident1: string | undefined
+              ident2: string | undefined
+              length_ft: number | undefined
+              lights: boolean | undefined
+              surface: string | undefined
+              width_ft: number | undefined
+            }>
+          | undefined
+        state: string | undefined
+        type: string | undefined
+        website: string | undefined
+        wiki: string | undefined
+      }
+    | undefined
+}>
+
+export const sampleNearest: T_Nearest = [
+  {
+    coordinate_distance: 0,
+    kilometers: 0,
+    miles: 0,
+    nautical_miles: 0,
+    station: {
+      city: '',
+      country: '',
+      elevation_ft: 0,
+      elevation_m: 0,
+      gps: '',
+      iata: '',
+      icao: '',
+      latitude: 0,
+      local: '',
+      longitude: 0,
+      name: '',
+      note: '',
+      reporting: true,
+      runways: [
+        {
+          bearing1: 0,
+          bearing2: 0,
+          ident1: '',
+          ident2: '',
+          length_ft: 0,
+          lights: true,
+          surface: '',
+          width_ft: 0
+        }
+      ],
+      state: '',
+      type: '',
+      website: '',
+      wiki: ''
+    }
+  }
+]
+
+export const nearestUrlBuilder = (coords: number[]): string => {
+  return baseUrl + `station/near/${coords[0]},${coords[1]}` + Token
+}
+
+const degToRad = (degrees: number): number => {
+  return degrees * (Math.PI / 180)
+}
+
+export const calculateDistanceLatLonToNM = (coords1: number[], coords2: number[]): number => {
+  const R = 6371
+  const dLat = degToRad(coords2[0] - coords1[0])
+  const dLon = degToRad(coords2[1] - coords1[1])
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(degToRad(coords1[0])) * Math.cos(degToRad(coords2[0])) * Math.sin(dLon / 2) * Math.sin(dLon / 2)
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+  const distKm = R * c
+
+  const distNM = distKm * 0.539957
+
+  return distNM
+}
