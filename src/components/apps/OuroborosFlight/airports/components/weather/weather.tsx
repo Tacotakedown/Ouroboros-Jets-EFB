@@ -1,5 +1,5 @@
 import React from 'react'
-import { type IMetar, parseMetar, parseTAF } from 'metar-taf-parser'
+import { type IMetar, parseMetar, parseTAF, type ITAF } from 'metar-taf-parser'
 import './weather.scss'
 import {
   weatherUrlBuilder,
@@ -10,6 +10,7 @@ import {
   sampleTaf
 } from '../../avwxApi'
 import { MetarProvider } from './metar/metarProvider'
+import { TafProvider } from './taf/tafProvider'
 
 type T_WeatherProps = {
   airport: string
@@ -20,6 +21,7 @@ export const Weather: React.FC<T_WeatherProps> = (props: T_WeatherProps): JSX.El
   const [metar, setMetar] = React.useState<T_WeatherReturnTypeMetar>(sampleMetar)
   const [parsedMetar, setParsedMetar] = React.useState<IMetar>()
   const [taf, setTaf] = React.useState<T_WeatherReturnTypeTaf>(sampleTaf)
+  const [parsedTaf, setParsedTaf] = React.useState<ITAF>()
   React.useEffect(() => {
     const fetchMetar = async (): Promise<void> => {
       try {
@@ -59,11 +61,17 @@ export const Weather: React.FC<T_WeatherProps> = (props: T_WeatherProps): JSX.El
     setParsedMetar(parseMetar(metar.raw))
   }, [metar.raw])
 
+  React.useEffect(() => {
+    if (taf.raw === undefined || taf.raw === null) return
+    if (taf.raw === '') return
+    setParsedTaf(parseTAF(taf.raw))
+  }, [taf.raw])
+
   return (
     <div className="weather-wrapper">
       <h1>Weather</h1>
       <MetarProvider metar={metar.raw} parsedMetar={parsedMetar} />
-      {/* <p>{taf.raw}</p> */}
+      <TafProvider taf={taf.raw} parsedTaf={parsedTaf} />
     </div>
   )
 }
