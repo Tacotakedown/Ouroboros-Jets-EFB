@@ -40,7 +40,11 @@ export const MetarProvider: React.FC<T_MetarProviderProps> = (props: T_MetarProv
         {props.metar}
       </div>
       <div>
-        Wind: {props.parsedMetar.wind?.degrees}° at {props.parsedMetar.wind?.speed} knots
+        Wind: {props.parsedMetar.wind?.degrees}° at {props.parsedMetar.wind?.speed}
+        {props.parsedMetar.wind?.gust !== null || props.parsedMetar.wind?.gust !== undefined
+          ? '-' + props.parsedMetar.wind?.gust
+          : ''}
+        knots
       </div>
       <div>Visibility: {props.parsedMetar.visibility?.value} sm</div>
       <div>Temperature: {props.parsedMetar.temperature}°C</div>
