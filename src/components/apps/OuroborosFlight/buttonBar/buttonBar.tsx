@@ -18,7 +18,6 @@ export const ButtonBar: React.FC<T_ButtonBarProps> = (props: T_ButtonBarProps): 
       <ButtonBarButton setActiveButton={setActiveButton} text="Maps" to={1} />
       <ButtonBarButton setActiveButton={setActiveButton} text="Plates" to={2} />
       {/* <ButtonBarButton text="Documents" to={3} /> */}
-      <ButtonBarButton setActiveButton={setActiveButton} text="Imagery" to={3} />
       <ButtonBarButton setActiveButton={setActiveButton} text="ScratchPads" to={4} />
       <ButtonBarButton setActiveButton={setActiveButton} text="Checklists" to={5} />
       <ButtonBarButton setActiveButton={setActiveButton} text="W & B" to={6} />

@@ -55,3 +55,12 @@
 .search-button-hourglass {
   pointer-events: none;
 }
+.search-results-container {
+  position: absolute;
+  background-color: red;
+  top: 150px;
+  width: 50%;
+
+  left: 25%;
+  z-index: 999;
+}

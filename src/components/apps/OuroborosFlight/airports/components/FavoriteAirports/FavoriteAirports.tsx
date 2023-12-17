@@ -9,7 +9,7 @@ type T_AirportsFavoritesProps = {
 
 export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_AirportsFavoritesProps): JSX.Element => {
   const [favoritesNearest, setFavoritesNearest] = React.useState<number>(0)
-  const [coordinates, setCoordinates] = React.useState<number[]>([33.269548, -111.62987])
+  const [coordinates] = React.useState<number[]>([33.269548, -111.62987])
   const [minimumRunwayLength, setMinimumRunwayLength] = React.useState<number>(5000)
   const [sortingMethod, setSortingMethod] = React.useState<number>(0) // 0 = distance, 1 = longest runway
   const [nearestAirports, setNearestAirports] = React.useState<T_Nearest>(sampleNearest)
@@ -33,7 +33,9 @@ export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_A
   React.useEffect(() => {
     const distance: number = calculateDistanceLatLonToNM(prevCoords.current, coordinates)
 
-    if (Math.abs(distance) > 1) {
+    const minDistance: number = 10 // Minimum distance to update the cache of nearest airports
+
+    if (Math.abs(distance) > minDistance) {
       fetchNearest().catch((e) => {
         console.error(e)
       })
@@ -47,8 +49,8 @@ export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_A
     })
   }, [])
 
-  const getLongestRunway = (station: any): number => {
-    if (station === null || station === undefined) return 0
+  const getLongestRunway = (station: any): { longestRunwayLength: number; longestNumberSurface: string } => {
+    if (station === null || station === undefined) return { longestRunwayLength: 0, longestNumberSurface: '' }
 
     let longestRunway = station.runways[0]
 
@@ -57,7 +59,7 @@ export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_A
         longestRunway = station.runways[i]
       }
     }
-    return longestRunway.length_ft
+    return { longestRunwayLength: longestRunway.length_ft, longestNumberSurface: longestRunway.surface }
   }
 
   const renderNearest = (): JSX.Element => {
@@ -67,16 +69,19 @@ export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_A
       const longestRunwayA = getLongestRunway(a.station)
       const longestRunwayB = getLongestRunway(b.station)
 
-      return longestRunwayB - longestRunwayA
+      return longestRunwayB.longestRunwayLength - longestRunwayA.longestRunwayLength
     })
 
     if (sortingMethod === 0) {
       return (
         <div>
           {nearestAirports.map((airport: any, key: number) => {
-            const longestRunway = getLongestRunway(airport.station)
+            const longestRunway = getLongestRunway(airport.station).longestRunwayLength
             if (longestRunway < minimumRunwayLength) return <div></div>
             if (airport.station.icao === null) return <div></div>
+            const distanceFromAirport: number = Math.abs(
+              calculateDistanceLatLonToNM([airport.station.latitude, airport.station.longitude], coordinates)
+            )
             return (
               <div
                 onClick={() => {
@@ -85,16 +90,12 @@ export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_A
                 className="airports-favorites-list-item"
                 key={key}
               >
-                {airport.station.icao}
-                <div>{airport.station.name}</div>
+                {airport.station.icao}: {airport.station.name}
+                <div>{distanceFromAirport.toFixed(0)} NM</div>
                 <div>
-                  {calculateDistanceLatLonToNM(
-                    [airport.station.latitude, airport.station.longitude],
-                    coordinates
-                  ).toFixed(0)}
-                  NM
+                  longest runway: {getLongestRunway(airport.station).longestRunwayLength} ft{' '}
+                  {getLongestRunway(airport.station).longestNumberSurface}
                 </div>
-                <div>longest runway: {getLongestRunway(airport.station)} ft</div>
               </div>
             )
           })}
@@ -104,7 +105,7 @@ export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_A
       return (
         <div>
           {sortedAirports.map((airport: any, key: number) => {
-            const longestRunway = getLongestRunway(airport.station)
+            const longestRunway = getLongestRunway(airport.station).longestRunwayLength
             if (longestRunway < minimumRunwayLength) return <div></div>
             if (airport.station.icao === null) return <div key={key}></div>
 
@@ -125,7 +126,10 @@ export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_A
                   ).toFixed(0)}{' '}
                   NM
                 </div>
-                <div>Longest runway: {getLongestRunway(airport.station)} ft</div>
+                <div>
+                  Longest runway: {getLongestRunway(airport.station).longestRunwayLength} ft{' '}
+                  {getLongestRunway(airport.station).longestNumberSurface}
+                </div>
               </div>
             )
           })}

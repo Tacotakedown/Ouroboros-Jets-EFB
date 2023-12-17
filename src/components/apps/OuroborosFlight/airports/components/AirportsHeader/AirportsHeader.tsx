@@ -10,6 +10,7 @@ type T_AirportsHeaderProps = {
 export const AirportsHeader: React.FC<T_AirportsHeaderProps> = (props: T_AirportsHeaderProps): JSX.Element => {
   return (
     <div className="airports-header">
+      {/* <div className="search-results-container">i am the search results container</div> */}
       <div className="airports-header-title">
         FlightBag <sub style={{ fontSize: '30px' }}>PRO</sub>
       </div>

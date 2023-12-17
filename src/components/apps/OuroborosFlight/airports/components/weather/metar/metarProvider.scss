@@ -1,0 +1,18 @@
+.metar-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: var(--backgroundColor);
+  width: 900px;
+}
+.flight-cat-group {
+  display: flex;
+  width: 200px;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.flight-cat-bubble {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
