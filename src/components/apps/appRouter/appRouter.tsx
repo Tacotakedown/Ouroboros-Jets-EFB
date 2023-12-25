@@ -24,7 +24,7 @@ export type AppState = {
 
 const defaultState: AppState = {
   state: {
-    ouroborosFlight: { page: 0, currentChart: 'a', currentAirport: 'KPHX' }
+    ouroborosFlight: { page: 0, currentChart: 'a', currentAirport: 'KPHX', favorites: [] }
   },
   updateState: (newState?: Partial<AppState>) => {}
 }
