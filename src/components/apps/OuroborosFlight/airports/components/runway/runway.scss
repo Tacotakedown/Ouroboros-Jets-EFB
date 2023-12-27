@@ -13,7 +13,7 @@
   overflow-y: scroll;
 }
 .runway-display-container {
-  border-top: 1px solid grey;
+  border-top: 1px solid var(--notSoLightPurple);
   display: flex;
   flex-direction: row;
   width: 900px;
@@ -24,22 +24,26 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 300px;
-  border-right: 1px solid grey;
+  width: 400px;
+  border-right: 1px solid var(--notSoLightPurple);
+
+  padding: 20px;
+  margin-left: 20px;
 }
 .runway-display-right {
   display: flex;
-  width: 540px;
-
-  justify-content: flex-start;
-  flex-direction: column;
+  width: 590px;
+  justify-content: space-around;
+  flex-direction: row;
+  margin-left: 20px;
 }
 .runway-display-right-ident {
   width: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  color: var(--lightBlue);
+  font-size: 35px;
 }
 .runway-display-right-winds {
   display: flex;
@@ -47,6 +51,15 @@
   width: 150px;
   justify-content: space-around;
   align-items: center;
-  font-size: 25px;
-  color: grey;
+  font-size: 28px;
+}
+.runway-content-wrapper {
+  background-color: var(--veryVeryDarkBlue);
+  padding: 0px;
+  width: 950px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  height: 626px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }

@@ -96,7 +96,8 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
           page: state?.ouroborosFlight.page,
           currentChart: state?.ouroborosFlight.currentChart,
           currentAirport: airport,
-          favorites: state?.ouroborosFlight.favorites
+          favorites: state?.ouroborosFlight.favorites,
+          darkMode: state?.ouroborosFlight.darkMode
         }
       }
     })
@@ -111,7 +112,8 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
           page: state?.ouroborosFlight.page,
           currentChart: state?.ouroborosFlight.currentChart,
           currentAirport: state?.ouroborosFlight.currentAirport,
-          favorites: favorites
+          favorites: favorites,
+          darkMode: state?.ouroborosFlight.darkMode
         }
       }
     })
@@ -120,6 +122,7 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
     const newArray = array.filter((item) => item !== string)
     return newArray
   }
+
   const removeFavorite = (airport: string): void => {
     const favorites = state?.ouroborosFlight.favorites ?? []
     const newFavorites = removeStringFromArray(favorites, airport)
@@ -130,7 +133,8 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
           page: state?.ouroborosFlight.page,
           currentChart: state?.ouroborosFlight.currentChart,
           currentAirport: state?.ouroborosFlight.currentAirport,
-          favorites: newFavorites
+          favorites: newFavorites,
+          darkMode: state?.ouroborosFlight.darkMode
         }
       }
     })

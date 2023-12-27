@@ -93,6 +93,8 @@ export const MetarProvider: React.FC<T_MetarProviderProps> = (props: T_MetarProv
       return ''
     } else if (type == '+') {
       return 'Heavy'
+    } else if ((type = 'VC')) {
+      return 'Vicinity'
     } else return '' // there are a shit ton of these but too lazy rn
   }
   const decodeWeatherType = (type: string): string => {
@@ -113,10 +115,68 @@ export const MetarProvider: React.FC<T_MetarProviderProps> = (props: T_MetarProv
     } else if (type == 'GS') {
       return 'Small Hail'
     } else if (type == 'UP') {
-      return 'Unknown Precipitation' // you know where to find these mr cfi
+      return 'Unknown Precipitation'
     } else if (type == 'BR') {
       return 'Mist'
+    } else if (type == 'FG') {
+      return 'Fog'
+    } else if (type == 'FU') {
+      return 'Smoke'
+    } else if (type == 'VA') {
+      return 'Volcanic Ash'
+    } else if (type == 'DU') {
+      return 'Widespread Dust'
+    } else if (type == 'SA') {
+      return 'Sand'
+    } else if (type == 'HZ') {
+      return 'Haze'
+    } else if (type == 'PY') {
+      return 'Spray'
+    } else if (type == 'PO') {
+      return 'Sand Whirls'
+    } else if (type == 'SQ') {
+      return 'Squalls'
+    } else if (type == 'FC') {
+      return 'Funnel Cloud'
+    } else if (type == 'SS') {
+      return 'Sandstorm'
+    } else if (type == 'DS') {
+      return 'Duststorm'
     } else return ''
+  }
+
+  // WE NEED DESCRIPTORS!!! FREEZING RAIN CANNOT BE DISPLAYED WITHOUT PARSING IT
+  /**
+   * MI Shallow
+   * PR Partial
+   * BC Patches
+   * DR Low Drifting
+   * BL Blowing
+   * SH Showers
+   * TS Thunderstorm
+   * FZ Freezing
+   *
+   */
+  const decodeWeatherDescriptor = (discriminator: string): string => {
+    if (discriminator === 'MI') {
+      return 'Shallow'
+    } else if (discriminator === 'PR') {
+      return 'Partial'
+    } else if (discriminator === 'BC') {
+      return 'Patches'
+    } else if (discriminator === 'DR') {
+      return 'Low Drifting'
+    } else if (discriminator === 'BL') {
+      return 'Blowing'
+    } else if (discriminator === 'SH') {
+      return 'Showers'
+    } else if (discriminator === 'TS') {
+      return 'Thunderstorm'
+    } else if (discriminator === 'FZ') {
+      return 'Freezing'
+    } else {
+      return ''
+    }
   }
 
   const humidity = calculateRelativeHumidity(props.parsedMetar.temperature, props.parsedMetar.dewPoint)
@@ -144,9 +204,19 @@ export const MetarProvider: React.FC<T_MetarProviderProps> = (props: T_MetarProv
               <div>Calm</div>
             ) : (
               <div>
-                {props.parsedMetar.wind?.degrees}° at {props.parsedMetar.wind?.speed}
-                {props.parsedMetar.wind?.gust !== undefined ? ' - ' + props.parsedMetar.wind?.gust + ' ' : ' '}
-                knots
+                {props.parsedMetar.wind?.direction === 'VRB' ? (
+                  <div>
+                    Variable at {props.parsedMetar.wind?.speed}
+                    {props.parsedMetar.wind?.gust !== undefined ? ' - ' + props.parsedMetar.wind?.gust + ' ' : ' '}
+                    knots
+                  </div>
+                ) : (
+                  <div>
+                    {props.parsedMetar.wind?.degrees}° at {props.parsedMetar.wind?.speed}
+                    {props.parsedMetar.wind?.gust !== undefined ? ' - ' + props.parsedMetar.wind?.gust + ' ' : ' '}
+                    knots
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -176,7 +246,8 @@ export const MetarProvider: React.FC<T_MetarProviderProps> = (props: T_MetarProv
               {props.parsedMetar.weatherConditions.map((c) => {
                 return (
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    {decodeWeatherIndensity(c.intensity ?? '')} {c.phenomenons.map((w) => decodeWeatherType(w))}
+                    {decodeWeatherIndensity(c.intensity ?? '')} {decodeWeatherDescriptor(c.descriptive ?? '')}{' '}
+                    {c.phenomenons.map((w) => decodeWeatherType(w))}
                   </div>
                 )
               })}

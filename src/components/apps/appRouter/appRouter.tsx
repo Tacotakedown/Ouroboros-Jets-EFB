@@ -6,6 +6,7 @@ type T_AppContextType = {
     currentChart: string | undefined
     currentAirport: string | undefined
     favorites: string[] | undefined
+    darkMode: boolean | undefined
   }
 }
 const defaultAppContextValues: T_AppContextType = {
@@ -13,7 +14,8 @@ const defaultAppContextValues: T_AppContextType = {
     page: 0,
     currentChart: 'a',
     currentAirport: 'KPHX',
-    favorites: []
+    favorites: [],
+    darkMode: false
   }
 }
 
@@ -24,7 +26,7 @@ export type AppState = {
 
 const defaultState: AppState = {
   state: {
-    ouroborosFlight: { page: 0, currentChart: 'a', currentAirport: 'KPHX', favorites: [] }
+    ouroborosFlight: { page: 0, currentChart: 'a', currentAirport: 'KPHX', favorites: [], darkMode: false }
   },
   updateState: (newState?: Partial<AppState>) => {}
 }

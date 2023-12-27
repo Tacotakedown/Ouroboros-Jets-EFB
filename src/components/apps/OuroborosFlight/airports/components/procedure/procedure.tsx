@@ -5,7 +5,7 @@ import { charts } from '../../../../../../NavigraphApi/Navigraph'
 import { useNavigraphAuth } from '../../../../../../hooks/useNavigraphAuth'
 import { ChartSorter } from './chartSorter'
 import { ProcedureButton } from './procedureButtonBarButton'
-
+import { AppContext } from '../../../../appRouter/appRouter'
 type T_ProcedureProps = {
   airport: string
 }
@@ -15,12 +15,16 @@ export const Procedure: React.FC<T_ProcedureProps> = (props: T_ProcedureProps): 
   const [chartBlob, setChartBlob] = React.useState<Blob | null>(null)
   const [procedurePage, setProcedurePage] = React.useState<number>(0)
 
+  const { state } = React.useContext(AppContext)
+
   const fetchChartsIndex = (icao: string): void => {
     charts.getChartsIndex({ icao: icao }).then((idx) => idx && setChartIndex(idx))
   }
 
   const loadChart = (chart: Chart): void => {
-    charts.getChartImage({ chart }).then((img) => setChartBlob(img))
+    charts
+      .getChartImage({ chart, theme: state?.ouroborosFlight.darkMode ? 'dark' : 'light' })
+      .then((img) => setChartBlob(img))
   }
 
   const getStringFromPage = (page: number): 'APP' | 'DEP' | 'ARR' | 'APT' | '' => {
@@ -36,10 +40,6 @@ export const Procedure: React.FC<T_ProcedureProps> = (props: T_ProcedureProps): 
       default:
         return ''
     }
-  }
-
-  const chageProcedurePage = (page: number): void => {
-    setProcedurePage(page)
   }
 
   React.useEffect(() => {
@@ -72,7 +72,7 @@ export const Procedure: React.FC<T_ProcedureProps> = (props: T_ProcedureProps): 
               onClick={() => {
                 setChartBlob(null)
               }}
-              style={{ color: 'white' }}
+              className="chart-close"
             >
               Close
             </div>

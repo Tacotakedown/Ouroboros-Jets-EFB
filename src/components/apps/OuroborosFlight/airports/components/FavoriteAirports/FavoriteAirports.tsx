@@ -9,7 +9,7 @@ type T_AirportsFavoritesProps = {
 
 export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_AirportsFavoritesProps): JSX.Element => {
   const [favoritesNearest, setFavoritesNearest] = React.useState<number>(0)
-  const [coordinates] = React.useState<number[]>([33.269548, -111.62987])
+  const [coordinates] = React.useState<number[]>([40.73061, -73.935242])
   const [minimumRunwayLength, setMinimumRunwayLength] = React.useState<number>(5000)
   const [sortingMethod, setSortingMethod] = React.useState<number>(0) // 0 = distance, 1 = longest runway
   const [nearestAirports, setNearestAirports] = React.useState<T_Nearest>(sampleNearest)

@@ -6,6 +6,7 @@ type T_RunwayDisplayProps = {
   dimensions: { width: number; length: number }
   winds: { hw: string; cw: string; isTw: boolean }
   winds2: { hw: string; cw: string; isTw: boolean }
+  isCalm?: boolean
 }
 const RunwayDisplay: React.FC<T_RunwayDisplayProps> = (props: T_RunwayDisplayProps): JSX.Element => {
   return (
@@ -21,16 +22,26 @@ const RunwayDisplay: React.FC<T_RunwayDisplayProps> = (props: T_RunwayDisplayPro
       <div className="runway-display-right">
         <div className="runway-top">
           <div className="runway-display-right-ident">Rwy {props.ident.ident1}</div>
-          <div className="runway-display-right-winds">
-            {' '}
-            {props.winds.cw} kts <div style={{ color: props.winds.isTw ? 'red' : 'lime' }}>{props.winds.hw} kts</div>
-          </div>
+
+          {!props.isCalm ? (
+            <div className="runway-display-right-winds">
+              {' '}
+              {props.winds.cw} kts <div style={{ color: props.winds.isTw ? 'red' : 'lime' }}>{props.winds.hw} kts</div>
+            </div>
+          ) : (
+            <div className="runway-display-right-winds">Clm</div>
+          )}
         </div>
         <div className="runway-bottom">
           <div className="runway-display-right-ident"> Rwy {props.ident.ident2}</div>
-          <div className="runway-display-right-winds">
-            {props.winds2.cw} kts <div style={{ color: props.winds2.isTw ? 'red' : 'lime' }}>{props.winds2.hw} kts</div>
-          </div>
+          {!props.isCalm ? (
+            <div className="runway-display-right-winds">
+              {props.winds2.cw} kts{' '}
+              <div style={{ color: props.winds2.isTw ? 'red' : 'lime' }}>{props.winds2.hw} kts</div>
+            </div>
+          ) : (
+            <div className="runway-display-right-winds">Clm </div>
+          )}
         </div>
       </div>
     </div>
@@ -88,26 +99,30 @@ export const Runway: React.FC<T_RunwayProps> = (props: T_RunwayProps): JSX.Eleme
 
   return (
     <div className="runway-wrapper">
-      {props.runways.map((rw) => {
-        const winds1 = calculateCrosswindComponents(
-          Number(formatRunwayInput(rw.ident1)),
-          props.wind.direction,
-          props.wind.velocity
-        )
-        const winds2 = calculateCrosswindComponents(
-          Number(formatRunwayInput(rw.ident2)),
-          props.wind.direction,
-          props.wind.velocity
-        )
-        return (
-          <RunwayDisplay
-            ident={{ ident1: rw.ident1, ident2: rw.ident2 }}
-            dimensions={{ width: rw.width_ft, length: rw.length_ft }}
-            winds={{ hw: winds1.hW, cw: winds1.cW, isTw: winds1.isTailwind }}
-            winds2={{ hw: winds2.hW, cw: winds2.cW, isTw: winds2.isTailwind }}
-          />
-        )
-      })}
+      <div className="runway-content-wrapper">
+        <div style={{ padding: '20px' }}>Runways</div>
+        {props.runways.map((rw) => {
+          const winds1 = calculateCrosswindComponents(
+            Number(formatRunwayInput(rw.ident1)),
+            props.wind.direction,
+            props.wind.velocity
+          )
+          const winds2 = calculateCrosswindComponents(
+            Number(formatRunwayInput(rw.ident2)),
+            props.wind.direction,
+            props.wind.velocity
+          )
+          return (
+            <RunwayDisplay
+              ident={{ ident1: rw.ident1, ident2: rw.ident2 }}
+              dimensions={{ width: rw.width_ft, length: rw.length_ft }}
+              winds={{ hw: winds1.hW, cw: winds1.cW, isTw: winds1.isTailwind }}
+              winds2={{ hw: winds2.hW, cw: winds2.cW, isTw: winds2.isTailwind }}
+              isCalm={props.wind.velocity === 0}
+            />
+          )
+        })}
+      </div>
     </div>
   )
 }
