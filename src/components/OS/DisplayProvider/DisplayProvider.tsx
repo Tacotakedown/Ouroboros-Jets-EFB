@@ -3,6 +3,7 @@ import { OsHome } from '../Home/Home'
 import { LoadContext, OsRouterContext } from '../../../hooks/OsRouter'
 import { OuroborosFlight } from '../../apps/OuroborosFlight/OuroborosFlight'
 import { AppContext } from '../../apps/appRouter/appRouter'
+import { NavigraphAppPage } from '../../../NavigraphApi/NavigraphApp'
 
 export const DisplayProvider = (): JSX.Element => {
   const OSContext = LoadContext(OsRouterContext)
@@ -16,7 +17,8 @@ export const DisplayProvider = (): JSX.Element => {
           ouroborosFlight: {
             page: 0,
             currentChart: 'defaultChart',
-            currentAirport: 'KPHX'
+            currentAirport: 'KPHX',
+            favorites: ['']
           }
         }
       })
@@ -30,7 +32,7 @@ export const DisplayProvider = (): JSX.Element => {
       case 1:
         return <OuroborosFlight />
       case 2:
-        return <div>Chrome</div>
+        return <NavigraphAppPage />
       default:
         return <OsHome />
     }

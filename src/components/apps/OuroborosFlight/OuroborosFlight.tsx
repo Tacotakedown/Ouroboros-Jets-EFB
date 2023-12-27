@@ -3,6 +3,7 @@ import { ButtonBar } from './buttonBar/buttonBar'
 import { AppContext } from '../appRouter/appRouter'
 import './OuroborosFlight.scss'
 import { Airports } from './airports/airports'
+import { NgMap } from '../../../NavigraphApi/Map'
 
 export const OuroborosFlight = (): JSX.Element => {
   const { state } = React.useContext(AppContext)
@@ -12,7 +13,7 @@ export const OuroborosFlight = (): JSX.Element => {
       case 0:
         return <Airports />
       case 1:
-        return <div>maps</div>
+        return <NgMap />
       case 2:
         return <div>plates</div>
       case 3:
