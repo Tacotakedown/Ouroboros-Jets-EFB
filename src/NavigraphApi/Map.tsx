@@ -55,7 +55,6 @@ export const NgMap = () => {
       <div className="sources">
         <button onClick={() => handleSourceButtonClick('VFR')}>VFR</button>
         <button onClick={() => handleSourceButtonClick('IFR LOW')}>Source 2</button>
-        {/* Add more source buttons as needed */}
       </div>
       <div className="faa-sources">
         <button onClick={() => handleFAASourceButtonClick('VFR')}>FAA Source 1</button>
