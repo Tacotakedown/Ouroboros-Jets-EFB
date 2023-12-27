@@ -1,30 +1,25 @@
-# React + TypeScript + Vite
+# Ouroboros Jets EFB
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![EFB](https://github.com/Tacotakedown/Ouroboros-Jets-EFB/blob/main/preview.png?raw=true)
 
-Currently, two official plugins are available:
+This repo is a independent version of the EFB that we work on independently to avoid touching the sim, no one likes using the sim. Actions that will never work in this repo: pushback, doors, etc. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## APIs
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+If you actually plan on running this on a local machine, there are multiple APIs that you will need to have keys for:
+ - Navigraph
+ - AVWX rest
+ - AIRPORT DB (this shit is going to be gone any day
+a sample .env is located in the repo, just replace with your keys and the app should have full functionality
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Scripts
+`npm run dev` or `yarn dev` will allow you to run the app in your browser
+i will not be adding build scripts for the sim in this repo ever, cope ig
+
+## contributing
+don't its a mess, wait till its in the ejet repo
+
+
