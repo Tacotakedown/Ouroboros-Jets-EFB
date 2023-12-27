@@ -1,5 +1,6 @@
 import { Chart } from 'navigraph/charts'
 import React, { type FC } from 'react'
+import './procedure.scss'
 
 type T_ChartSorterProps = {
   chart: Chart[]
@@ -7,16 +8,12 @@ type T_ChartSorterProps = {
   handleClick: any // todo: give type
 }
 
-export const ChartSorter: FC<T_ChartSorterProps> = (props: T_ChartSorterProps): JSX.Element => {
+export const ChartSorter: FC<T_ChartSorterProps> = (props: T_ChartSorterProps): JSX.Element[] => {
   const sortedCharts = props.chart.filter((chart) => chart.category === props.filter)
-  if (props.filter === '') return <></>
-  return (
-    <div>
-      {sortedCharts.map((chart) => (
-        <div onClick={() => props.handleClick(chart)} key={chart.id}>
-          {chart.name}
-        </div>
-      ))}
+  if (props.filter === '') return []
+  return sortedCharts.map((chart) => (
+    <div className="procedure-page-chart-button" onClick={() => props.handleClick(chart)} key={chart.id}>
+      {chart.name}
     </div>
-  )
+  ))
 }

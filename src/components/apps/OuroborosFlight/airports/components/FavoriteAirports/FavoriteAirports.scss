@@ -1,10 +1,13 @@
 ::-webkit-scrollbar {
+  margin-top: 50px;
   width: 10px;
 }
 ::-webkit-scrollbar-track {
+  margin-top: 55px;
   background: var(--backgroundColor);
 }
 ::-webkit-scrollbar-thumb {
+  margin-top: 55px;
   background: var(--lightPurple);
 }
 ::-webkit-scrollbar-thumb:hover {

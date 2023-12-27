@@ -621,7 +621,7 @@ export type T_StationReturnType = {
   wiki: string
 }
 
-export const sampleStation = {
+export const sampleStation: T_StationReturnType = {
   city: '',
   country: '',
   elevation_ft: 0,

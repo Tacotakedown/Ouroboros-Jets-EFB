@@ -5,6 +5,7 @@ type T_AirportInformationProviderProps = {
   field: string
   content: string
   isWeather?: boolean
+  color?: string
 }
 
 export const AirportInformationProvider: React.FC<T_AirportInformationProviderProps> = (
@@ -13,7 +14,9 @@ export const AirportInformationProvider: React.FC<T_AirportInformationProviderPr
   return (
     <div className="airport-information-provider">
       <div className="airport-information-provider-field">{props.field}</div>
-      <div className="airport-information-provider-content">{props.content}</div>
+      <div className="airport-information-provider-content" style={{ color: props.color ?? '' }}>
+        {props.content}
+      </div>
     </div>
   )
 }
