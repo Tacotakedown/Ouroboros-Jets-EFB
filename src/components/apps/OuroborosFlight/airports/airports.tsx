@@ -24,6 +24,7 @@ import {
   sampleStation,
   stationUrlBuilder
 } from './avwxApi'
+import { Settings } from './components/SettingsMenu/Settings'
 
 type T_AirportsProps = {
   children?: JSX.Element
@@ -39,6 +40,7 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
   const [airport, setAirport] = useState<string>(state?.ouroborosFlight.currentAirport ?? '')
   const [metar, setMetar] = React.useState<T_WeatherReturnTypeMetar>(sampleMetar)
   const [taf, setTaf] = React.useState<T_WeatherReturnTypeTaf>(sampleTaf)
+  const [settingsShow, setSettingsShow] = React.useState<boolean>(false)
 
   React.useEffect(() => {
     const fetchMetar = async (): Promise<void> => {
@@ -216,7 +218,14 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
 
   return (
     <div>
-      <AirportsHeader setAirport={setAirport} airport={airport} changeAirport={changeAirport} />
+      <AirportsHeader
+        settingsButtonCallback={setSettingsShow}
+        setAirport={setAirport}
+        airport={airport}
+        changeAirport={changeAirport}
+      />
+
+      <Settings open={settingsShow} forceClose={setSettingsShow} />
       <InfoButtonBar state={airportsState} setState={setAirportsState} />
       <AirportsFavorites setAirport={changeAirport} favorites={state?.ouroborosFlight.favorites ?? []} />
       <AirportDisplay

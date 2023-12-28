@@ -64,3 +64,13 @@
   left: 25%;
   z-index: 999;
 }
+.settings-cog-svg {
+  fill: white;
+}
+.settings-cog-container {
+  padding-right: 30px;
+}
+
+.settings-cog-container:hover .settings-cog-svg {
+  filter: drop-shadow(0px 0px 20px white);
+}

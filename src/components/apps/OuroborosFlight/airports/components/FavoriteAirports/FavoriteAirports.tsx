@@ -1,6 +1,56 @@
 import React from 'react'
 import './FavoriteAirports.scss'
-import { type T_Nearest, calculateDistanceLatLonToNM, nearestUrlBuilder, sampleNearest } from '../../avwxApi'
+import {
+  type T_Nearest,
+  weatherUrlBuilder,
+  E_WeatherTypes,
+  calculateDistanceLatLonToNM,
+  nearestUrlBuilder,
+  sampleNearest,
+  T_WeatherReturnTypeMetar,
+  sampleMetar,
+  multiMetarURLBuilder
+} from '../../avwxApi'
+import { type IMetar, parseMetar } from 'metar-taf-parser'
+import { getFlightCategory } from '../../../common/getFlightCategory'
+
+type T_WeatherEmbedProps = {
+  icao: string[]
+}
+// const WeatherEmbed: React.FC<T_WeatherEmbedProps> = (props: T_WeatherEmbedProps): JSX.Element => {
+//   const [metars, setMetars] = React.useState()
+//   const [parsedMetar, setParsedMetar] = React.useState<IMetar>()
+
+//   React.useEffect(() => {
+//     const fetchMetarsBulk = async (icaos: string[]): Promise<void> => {
+//       try {
+//         const response = await fetch(multiMetarURLBuilder(icaos))
+//         const json = await response.json()
+
+//         setMetars(json)
+//       } catch (e) {
+//         console.error(e)
+//       }
+//     }
+//     fetchMetarsBulk(props.icao).catch((e) => {
+//       console.error(e)
+//     })
+//   }, [])
+
+//   React.useEffect(() => {
+//     console.log(metars)
+//   }, [metars])
+
+//   const flightCategory = getFlightCategory(
+//     {
+//       type: parsedMetar?.clouds[parsedMetar.clouds.length - 1]?.quantity ?? '',
+//       height: parsedMetar?.clouds[parsedMetar.clouds.length - 1]?.height ?? 0
+//     },
+//     parsedMetar?.visibility?.value ?? 999
+//   )
+
+//   return <div style={{ color: flightCategory.color }}>{flightCategory.flightCategory}</div>
+// }
 
 type T_AirportsFavoritesProps = {
   favorites: string[]
@@ -71,7 +121,6 @@ export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_A
 
       return longestRunwayB.longestRunwayLength - longestRunwayA.longestRunwayLength
     })
-
     if (sortingMethod === 0) {
       return (
         <div>
@@ -125,7 +174,7 @@ export const AirportsFavorites: React.FC<T_AirportsFavoritesProps> = (props: T_A
                     coordinates
                   ).toFixed(0)}{' '}
                   NM
-                </div>
+                </div>{' '}
                 <div>
                   Longest runway: {getLongestRunway(airport.station).longestRunwayLength} ft{' '}
                   {getLongestRunway(airport.station).longestNumberSurface}

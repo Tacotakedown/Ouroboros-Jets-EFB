@@ -763,3 +763,9 @@ export const calculateDistanceLatLonToNM = (coords1: number[], coords2: number[]
 
   return distNM
 }
+
+export const multiMetarURLBuilder = (metars: string[]): string => {
+  const airports: string = metars.join(',')
+  return baseUrl + `multi/metar/${airports}` + Token
+}
+// we need better key for this
