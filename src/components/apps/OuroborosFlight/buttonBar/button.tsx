@@ -18,7 +18,6 @@ export const ButtonBarButton: FC<T_ButtonBarButtonProps> = (props: T_ButtonBarBu
   }
 
   const clickHandler = (page: number): void => {
-    console.log('Button clicked:', page)
     updateState({
       state: {
         ...state,

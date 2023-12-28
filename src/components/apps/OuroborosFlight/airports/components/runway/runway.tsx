@@ -26,7 +26,8 @@ const RunwayDisplay: React.FC<T_RunwayDisplayProps> = (props: T_RunwayDisplayPro
           {!props.isCalm ? (
             <div className="runway-display-right-winds">
               {' '}
-              {props.winds.cw} kts <div style={{ color: props.winds.isTw ? 'red' : 'lime' }}>{props.winds.hw} kts</div>
+              {props.winds.cw} kts{' '}
+              <div style={{ color: props.winds.isTw ? '#ff0066' : '#00ffb4' }}>{props.winds.hw} kts</div>
             </div>
           ) : (
             <div className="runway-display-right-winds">Clm</div>
@@ -37,7 +38,7 @@ const RunwayDisplay: React.FC<T_RunwayDisplayProps> = (props: T_RunwayDisplayPro
           {!props.isCalm ? (
             <div className="runway-display-right-winds">
               {props.winds2.cw} kts{' '}
-              <div style={{ color: props.winds2.isTw ? 'red' : 'lime' }}>{props.winds2.hw} kts</div>
+              <div style={{ color: props.winds2.isTw ? '#ff0066' : '#00ffb4' }}>{props.winds2.hw} kts</div>
             </div>
           ) : (
             <div className="runway-display-right-winds">Clm </div>
@@ -102,6 +103,7 @@ export const Runway: React.FC<T_RunwayProps> = (props: T_RunwayProps): JSX.Eleme
       <div className="runway-content-wrapper">
         <div style={{ padding: '20px' }}>Runways</div>
         {props.runways.map((rw) => {
+          if (rw.ident1.startsWith('H')) return <></> // fuck you helicopters why the fuck are you in here
           const winds1 = calculateCrosswindComponents(
             Number(formatRunwayInput(rw.ident1)),
             props.wind.direction,

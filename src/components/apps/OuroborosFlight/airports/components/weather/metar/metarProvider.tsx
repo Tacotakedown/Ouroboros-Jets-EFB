@@ -41,7 +41,7 @@ export const MetarProvider: React.FC<T_MetarProviderProps> = (props: T_MetarProv
 
   const cToF = (temp: number): number | null => {
     if (temp === 999) return null
-    return temp * (9 / 5) + 32
+    return Math.round(temp * (9 / 5) + 32)
   }
   const padNumber = (num: number | undefined): string => {
     if (num === undefined) return ''
@@ -180,7 +180,9 @@ export const MetarProvider: React.FC<T_MetarProviderProps> = (props: T_MetarProv
   }
 
   const humidity = calculateRelativeHumidity(props.parsedMetar.temperature, props.parsedMetar.dewPoint)
+  const degrees = props.parsedMetar.wind?.degrees
 
+  const formattedDegrees = String(degrees).padStart(3, '0')
   return (
     <div className="metar-wrapper">
       <div className="metar-header">
@@ -212,7 +214,7 @@ export const MetarProvider: React.FC<T_MetarProviderProps> = (props: T_MetarProv
                   </div>
                 ) : (
                   <div>
-                    {props.parsedMetar.wind?.degrees}° at {props.parsedMetar.wind?.speed}
+                    {formattedDegrees}° at {props.parsedMetar.wind?.speed}
                     {props.parsedMetar.wind?.gust !== undefined ? ' - ' + props.parsedMetar.wind?.gust + ' ' : ' '}
                     knots
                   </div>
@@ -240,7 +242,7 @@ export const MetarProvider: React.FC<T_MetarProviderProps> = (props: T_MetarProv
       {props.parsedMetar.weatherConditions.length ? (
         <MetarOrganizer
           field=" Weather:"
-          colorOvrd="red"
+          colorOvrd="#ff0066"
           text={
             <div>
               {props.parsedMetar.weatherConditions.map((c) => {
