@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react'
+import { T_Scratchpad } from '../OuroborosFlight/Scratchpads/Scratchpads'
 
 type T_AppContextType = {
   ouroborosFlight: {
@@ -7,6 +8,7 @@ type T_AppContextType = {
     currentAirport: string | undefined
     favorites: string[] | undefined
     darkMode: boolean | undefined
+    scratchpads: T_Scratchpad[] | undefined
   }
 }
 const defaultAppContextValues: T_AppContextType = {
@@ -15,7 +17,8 @@ const defaultAppContextValues: T_AppContextType = {
     currentChart: 'a',
     currentAirport: 'KPHX',
     favorites: [],
-    darkMode: false
+    darkMode: false,
+    scratchpads: []
   }
 }
 
@@ -26,7 +29,14 @@ export type AppState = {
 
 const defaultState: AppState = {
   state: {
-    ouroborosFlight: { page: 0, currentChart: 'a', currentAirport: 'KPHX', favorites: [], darkMode: false }
+    ouroborosFlight: {
+      page: 0,
+      currentChart: 'a',
+      currentAirport: 'KPHX',
+      favorites: [],
+      darkMode: false,
+      scratchpads: []
+    }
   },
   updateState: (newState?: Partial<AppState>) => {}
 }

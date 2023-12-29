@@ -2,7 +2,7 @@ import React from 'react'
 import './Scratchpads.scss'
 
 type T_ScratchpadHeaderProps = {
-  AddClicked: () => void
+  AddClicked: (event: any) => void
   EditClicked: () => void
   DoneClicked: () => void
   DeleteAllClick: () => void
@@ -12,11 +12,23 @@ type T_ScratchpadHeaderProps = {
 export const ScratchpadHeader: React.FC<T_ScratchpadHeaderProps> = (props: T_ScratchpadHeaderProps): JSX.Element => {
   return (
     <div className="scratchpad-header">
-      {!props.isEditMode ? <div onClick={props.EditClicked}>Edit</div> : <div onClick={props.DoneClicked}>Done</div>}
       {!props.isEditMode ? (
-        <div onClick={props.AddClicked}>+</div>
+        <div className="sp-header-edit" onClick={props.EditClicked}>
+          Edit
+        </div>
       ) : (
-        <div onClick={props.DeleteAllClick}>Delete All</div>
+        <div className="sp-header-done" onClick={props.DoneClicked}>
+          Done
+        </div>
+      )}
+      {!props.isEditMode ? (
+        <div className="sp-header-add" onClick={props.AddClicked}>
+          +
+        </div>
+      ) : (
+        <div className="sp-header-delete" onClick={props.DeleteAllClick}>
+          Delete All
+        </div>
       )}
     </div>
   )

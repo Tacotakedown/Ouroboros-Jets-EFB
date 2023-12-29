@@ -26,7 +26,8 @@ export const ButtonBarButton: FC<T_ButtonBarButtonProps> = (props: T_ButtonBarBu
           currentAirport: state?.ouroborosFlight?.currentAirport,
           currentChart: state?.ouroborosFlight?.currentChart,
           favorites: state?.ouroborosFlight.favorites,
-          darkMode: state?.ouroborosFlight.darkMode
+          darkMode: state?.ouroborosFlight.darkMode,
+          scratchpads: state?.ouroborosFlight.scratchpads
         }
       }
     })

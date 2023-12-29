@@ -1,9 +1,83 @@
 .scratchpad-header {
-  width: 100%;
+  width: 90%;
   background-color: var(--darkPurple);
   height: 100px;
   display: flex;
+  padding-left: 5%;
+  padding-right: 5%;
   align-items: center;
   border-bottom: 1px solid var(--lightPurple);
   justify-content: space-between;
+}
+.popup-container {
+  position: absolute;
+  width: 220px;
+  height: 300px;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid green;
+}
+.sp-item-container {
+  display: flex;
+  width: 220px;
+  height: 300px;
+  border: 1px solid var(--lightPurple);
+  border-radius: 20px;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.sp-content-container {
+  padding: 30px;
+  gap: 45px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.sp-content-container-inner {
+  @extend .sp-content-container;
+  padding: 0px;
+  flex-wrap: wrap;
+}
+.add-scratchpad-content-button {
+  @extend .sp-item-container;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--blue);
+}
+
+/////////////////////////////// header buttons
+.sp-header-edit {
+  padding: 10px;
+  background-color: var(--blue);
+  width: 80px;
+  font-size: 35px;
+  height: 45px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+.sp-header-done {
+  @extend .sp-header-edit;
+}
+.sp-header-add {
+  @extend .sp-header-edit;
+  width: 120px;
+}
+.sp-header-delete {
+  @extend .sp-header-add;
+  background-color: var(--ifrRed);
+  width: 160px;
+}
+.scratchpad-display-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--containerBackground);
 }

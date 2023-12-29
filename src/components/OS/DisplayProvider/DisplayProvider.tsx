@@ -18,7 +18,9 @@ export const DisplayProvider = (): JSX.Element => {
             page: 0,
             currentChart: 'defaultChart',
             currentAirport: 'KPHX',
-            favorites: ['']
+            favorites: [''],
+            darkMode: false,
+            scratchpads: []
           }
         }
       })

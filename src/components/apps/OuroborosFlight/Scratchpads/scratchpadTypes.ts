@@ -1,11 +1,8 @@
 export enum E_scratchpadTypes {
-  DRAW,
-  TYPE,
-  GRID,
-  CRAFT,
-  ATIS,
-  PIREP,
-  TAKEOFF,
-  LANDING,
-  HOLDING
+  DRAW = 'Draw',
+  CRAFT = 'CRAFT',
+  ATIS = 'ATIS',
+  // TAKEOFF,
+  // LANDING,
+  HOLDING = 'Holding'
 }
