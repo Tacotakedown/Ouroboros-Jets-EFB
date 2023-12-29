@@ -1,1 +1,29 @@
-
+.popupContainer {
+  display: flex;
+  position: absolute;
+  left: 0px;
+  flex-direction: column;
+  height: 190px;
+  width: 220px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.popup-flex-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+.popup-content {
+  //   background-color: red;
+  border: 1px solid var(--lightPurple);
+  width: 105px;
+  height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}

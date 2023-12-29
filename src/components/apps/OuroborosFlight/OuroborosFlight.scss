@@ -26,8 +26,8 @@
   width: 100%;
 }
 .loading-watermark {
-  width: 500px;
-  animation: watermark-spin ease 1.5s infinite;
+  animation: watermark-spin 1.5s reverse infinite;
+  transform: translate(-30px, 16px);
 }
 
 @keyframes watermark-spin {
