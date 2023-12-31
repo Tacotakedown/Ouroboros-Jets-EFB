@@ -1,9 +1,9 @@
-import React, { useSyncExternalStore } from 'react'
+import React, { useEffect, useSyncExternalStore } from 'react'
 import './procedure.scss'
 import { Chart } from 'navigraph/charts'
 import { charts } from '../../../../../../NavigraphApi/Navigraph'
 import { useNavigraphAuth } from '../../../../../../hooks/useNavigraphAuth'
-import { ChartSorter } from './chartSorter'
+import { ChartSorter, T_coords } from './chartSorter'
 import { ProcedureButton } from './procedureButtonBarButton'
 import { AppContext } from '../../../../appRouter/appRouter'
 type T_ProcedureProps = {
@@ -14,6 +14,8 @@ export const Procedure: React.FC<T_ProcedureProps> = (props: T_ProcedureProps): 
   const [chartIndex, setChartIndex] = React.useState<Chart[]>([])
   const [chartBlob, setChartBlob] = React.useState<Blob | null>(null)
   const [procedurePage, setProcedurePage] = React.useState<number>(0)
+  const [psudoCoords, setPsudoCoords] = React.useState<T_coords>({ x: 0, y: 0 })
+  const [isHover, setIsHover] = React.useState<boolean>(false)
 
   const { state } = React.useContext(AppContext)
 
@@ -60,7 +62,17 @@ export const Procedure: React.FC<T_ProcedureProps> = (props: T_ProcedureProps): 
       {chartIndex.length ? (
         <div className="procedure-chart-buttons-container">
           <div className="procedure-buttons-title">Plates</div>
-          <ChartSorter chart={chartIndex} filter={getStringFromPage(procedurePage)} handleClick={loadChart} />
+
+          {isHover && (
+            <div className="psudo-hover" style={{ left: psudoCoords.x - 630, top: psudoCoords.y - 745 }}></div>
+          )}
+          <ChartSorter
+            setCoords={setPsudoCoords}
+            isHovering={setIsHover}
+            chart={chartIndex}
+            filter={getStringFromPage(procedurePage)}
+            handleClick={loadChart}
+          />
         </div>
       ) : (
         'Loading...'

@@ -89,6 +89,10 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
     })
   }, [state?.ouroborosFlight.currentAirport])
 
+  useEffect(() => {
+    console.log(stationInfo)
+  }, [stationInfo])
+
   const apiToken = process.env.AIRPORT_API_KEY
   const changeAirport = (airport: string): void => {
     updateState({
@@ -232,6 +236,10 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
       <InfoButtonBar state={airportsState} setState={setAirportsState} />
       <AirportsFavorites setAirport={changeAirport} favorites={state?.ouroborosFlight.favorites ?? []} />
       <AirportDisplay
+        city={stationInfo.city}
+        country={stationInfo.country}
+        coordnates={{ lon: stationInfo.longitude, lat: stationInfo.latitude }}
+        metarRaw={metar.raw ?? ''}
         removeFavorite={removeFavorite}
         favorites={state?.ouroborosFlight.favorites ?? []}
         addFavorite={addFavorite}

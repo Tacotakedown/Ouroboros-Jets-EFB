@@ -12,11 +12,12 @@
   height: 628px;
 }
 .chart-container {
-  position: fixed;
-  top: 0px;
-  left: 0px;
+  position: absolute;
+  top: -756px;
+  left: -640px;
+  z-index: 9999;
   width: 2048px;
-  height: 1445px;
+  height: 1443px;
   background-color: var(--containerBackground);
   display: flex;
   align-items: center;
@@ -31,7 +32,7 @@
 }
 .chart {
   max-width: 2000px;
-  max-height: 1400px;
+  max-height: 1370px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,6 +52,7 @@
   align-items: center;
   padding: 0px 20px 0px 20px;
   justify-content: space-between;
+  cursor: pointer;
 }
 .procedure-buttons-title {
   padding: 10px;
@@ -85,10 +87,26 @@
   padding: 20px;
   border-top: 1px solid var(--notSoLightPurple);
   background-color: var(--veryDarkBlue);
+  height: 30px;
+}
+.procedure-page-chart-button-text {
+  z-index: 30;
+  position: absolute;
 }
 .chart-close {
   background-color: var(--blue);
   padding: 10px;
   border-radius: 10px;
   border: 1px solid var(--notSoLightPurple);
+}
+.psudo-hover {
+  position: absolute;
+  width: 720px;
+  height: 50px;
+  z-index: 2;
+  // background-color: var(--blue);
+  border: 3px solid var(--blue);
+  border-radius: 10px;
+  pointer-events: none;
+  transition: 0.1s ease-in;
 }

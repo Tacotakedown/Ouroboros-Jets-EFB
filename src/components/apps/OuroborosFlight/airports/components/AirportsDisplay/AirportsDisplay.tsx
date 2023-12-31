@@ -2,6 +2,8 @@ import React from 'react'
 import './AirportsDisplay.scss'
 import { AirportInformationProvider } from './AptInformationProvider/AptInformationProvider'
 import { toast } from 'react-toastify'
+import { getSunrise, getSunset } from 'sunrise-sunset-js'
+import * as tzLookup from 'tz-lookup'
 
 type T_AirportDisplayProps = {
   airport: string
@@ -10,10 +12,46 @@ type T_AirportDisplayProps = {
   favorites: string[]
   name: string
   fieldElevation: number
+  coordnates: { lon: number; lat: number }
+  city: string
+  country: string
+  metarRaw: string
   flightCategory?: { flightCategory: string; color: string }
 }
 
 export const AirportDisplay: React.FC<T_AirportDisplayProps> = (props: T_AirportDisplayProps): JSX.Element => {
+  const sunrise: Date = getSunrise(props.coordnates.lat, props.coordnates.lon)
+  const sunset: Date = getSunset(props.coordnates.lat, props.coordnates.lon)
+  const UtcStringArray: string[] = [sunrise.toUTCString(), sunset.toUTCString()]
+  const UtcDateArray: Date[] = UtcStringArray.map((utcString) => new Date(utcString))
+
+  const UtcHoursArray: number[] = UtcDateArray.map((utcDate) => utcDate.getUTCHours())
+  const UtcMinutesArray: number[] = UtcDateArray.map((utcDate) => utcDate.getUTCMinutes())
+
+  type T_Coordinates = {
+    latitude: number
+    longitude: number
+  }
+
+  type T_TimeZoneInfo = {
+    abbreviation: string
+  }
+
+  const getTimeZone = (coordinates: T_Coordinates): T_TimeZoneInfo | null => {
+    try {
+      const { latitude, longitude } = coordinates
+
+      const areaLocationTimeZone = tzLookup(latitude, longitude)
+
+      return { abbreviation: areaLocationTimeZone }
+    } catch (error) {
+      console.error('Error determining timezone:', error)
+      return null
+    }
+  }
+
+  const timeZoneInfo = getTimeZone({ latitude: props.coordnates.lat, longitude: props.coordnates.lon })
+
   return (
     <div className="airport-display">
       <div className="airport-display-title-group">
@@ -45,27 +83,49 @@ export const AirportDisplay: React.FC<T_AirportDisplayProps> = (props: T_Airport
           </svg>
         </div>
       </div>
-
+      <div>
+        {props.city}, {props.country}
+      </div>
+      <AirportInformationProvider
+        field="Latest Weather"
+        content={props.flightCategory?.flightCategory ?? 'unknown'}
+        color={props.flightCategory?.color ?? 'grey'}
+        metarRaw={props.metarRaw}
+        isWeather={true}
+      />
       <div className="airport-display-divider">
         <div className="airport-display-left-content">
+          <AirportInformationProvider field="Elevation" content={props.fieldElevation.toString() + "' MSL"} />
           <AirportInformationProvider
-            field="Latest Weather"
-            content={props.flightCategory?.flightCategory ?? 'unknown'}
-            color={props.flightCategory?.color ?? 'grey'}
-            isWeather={true}
+            field="Sunrise / Sunset"
+            content={
+              UtcHoursArray[0].toString().padStart(2, '0') +
+              ':' +
+              UtcMinutesArray[0].toString().padStart(2, '0') +
+              ' / ' +
+              UtcHoursArray[1].toString().padStart(2, '0') +
+              ':' +
+              UtcMinutesArray[1].toString().padStart(2, '0') +
+              'Z'
+              // timeZoneInfo?.abbreviation for when implement local time
+            }
           />
-          <AirportInformationProvider field="Elevation" content={props.fieldElevation.toString()} />
-          <AirportInformationProvider field="Pattern Altitude" content={(props.fieldElevation + 1000).toString()} />
-
           {/* <AirportInformationProvider field="Procedures" content="ILS, RNAV, VOR" /> */}
         </div>
-        {/* <div className="airport-display-right-content">
-          <AirportInformationProvider field="ATIS" content="123.45" />
+        <div className="airport-display-right-content">
+          <AirportInformationProvider
+            field="Pattern Altitude: Turbine / Light"
+            content={
+              (props.fieldElevation + 2000).toString() + ' / ' + (props.fieldElevation + 1000).toString() + "' MSL"
+            }
+          />
+
+          {/* <AirportInformationProvider field="ATIS" content="123.45" />
           <AirportInformationProvider field="Clearance" content="123.45" />
           <AirportInformationProvider field="Ground" content="123.45" />
           <AirportInformationProvider field="Tower" content="123.45" />
-          <AirportInformationProvider field="Appr & Dep" content="123.45" />
-        </div> */}
+          <AirportInformationProvider field="Appr & Dep" content="123.45" /> */}
+        </div>
       </div>
     </div>
   )

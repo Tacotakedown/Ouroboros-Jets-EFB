@@ -6,7 +6,7 @@ import { E_scratchpadTypes } from './scratchpadTypes'
 import { AppContext } from '../../appRouter/appRouter'
 import { CanvasPath, ReactSketchCanvas, ReactSketchCanvasRef } from 'react-sketch-canvas'
 import DOMPurify from 'dompurify'
-import { SpPopoutIcon } from './ScratchpadIcons'
+import { SpBGCraft, SpPopoutIcon } from './ScratchpadIcons'
 
 export type T_Scratchpad = {
   type: E_scratchpadTypes
@@ -104,7 +104,7 @@ export const Scratchpads = () => {
     }
   }, [showScratchpad, activeSpNumber, state])
 
-  const [svgArray, setSvgArray] = useState<string[]>([])
+  const [svgArray, setSvgArray] = useState<string[]>([]) // THIS CANNOT BE STORED IN THIS COMPONENT, IT NEEDS THE SAME HEIARCY OF THE SCRATCHPAD CONTENT STATE IN THE USECONTEXT OR ELSE THERE WILL BE A MISMATCH IN ARRAY LENGTH WHEN RE REDNDERING THIS COMPONENT (IT WILL NOT NOT NOT NOT NOT NOT NOT NOT WORK) still too lazy to fix rn
 
   const svgArrayPush = (input: string): void => {
     const newArray = [...svgArray, input]
@@ -173,7 +173,7 @@ export const Scratchpads = () => {
   const addScratchpad = (type: E_scratchpadTypes): void => {
     const newScratchpad = { type: type, content: [] }
     setScratchpads([...scratchpads, newScratchpad])
-    setSvgArray([...svgArray, ''])
+    svgArrayPush('')
   }
   const removeScratchpad = (index: number): void => {
     if (index >= 0 && index < scratchpads.length) {
@@ -208,7 +208,12 @@ export const Scratchpads = () => {
                   className="sp-item-container"
                 >
                   <div>{s.type}</div>
-                  <RenderSvgFromString element={svgArray[index]} />
+                  <div className="mini-preset-positioner">
+                    <SpBGCraft width={300} />
+                  </div>
+                  <div className="mini-content-positioner">
+                    <RenderSvgFromString element={svgArray[index]} />
+                  </div>
                   {editMode ? (
                     <div
                       className="remove-button"
@@ -268,14 +273,19 @@ export const Scratchpads = () => {
           </div>
 
           <div className="canvas-container">
-            <ReactSketchCanvas
-              exportWithBackgroundImage
-              canvasColor="transparent"
-              style={{ border: 'none' }}
-              ref={canvasRef}
-              strokeWidth={5}
-              strokeColor="white"
-            />
+            <div className="bg-positioner">
+              <SpBGCraft width={1800} />
+            </div>
+            <div className="canvas-positioner">
+              <ReactSketchCanvas
+                exportWithBackgroundImage
+                canvasColor="transparent"
+                style={{ border: 'none' }}
+                ref={canvasRef}
+                strokeWidth={5}
+                strokeColor="white"
+              />
+            </div>
           </div>
         </div>
       )}
