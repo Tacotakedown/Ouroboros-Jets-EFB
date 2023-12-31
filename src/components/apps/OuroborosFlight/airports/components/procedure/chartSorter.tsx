@@ -45,6 +45,7 @@ export const ChartSorter: FC<T_ChartSorterProps> = (props: T_ChartSorterProps): 
       onMouseLeave={() => {
         props.isHovering(false)
       }}
+      className="chart-sorter-wrapper"
     >
       {sortedCharts.map((chart) => (
         <div

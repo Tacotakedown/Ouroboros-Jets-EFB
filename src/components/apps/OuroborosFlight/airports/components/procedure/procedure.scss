@@ -91,7 +91,7 @@
 }
 .procedure-page-chart-button-text {
   z-index: 30;
-  position: absolute;
+  position: sticky;
 }
 .chart-close {
   background-color: var(--blue);
@@ -109,4 +109,8 @@
   border-radius: 10px;
   pointer-events: none;
   transition: 0.1s ease-in;
+}
+.chart-sorter-wrapper {
+  height: 500px;
+  overflow-y: scroll;
 }

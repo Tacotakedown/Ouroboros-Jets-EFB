@@ -33,7 +33,8 @@ export const Settings: React.FC<T_SettingsProps> = (props: T_SettingsProps): JSX
           currentAirport: state?.ouroborosFlight.currentAirport,
           favorites: state?.ouroborosFlight.favorites,
           darkMode: darkMode,
-          scratchpads: state?.ouroborosFlight.scratchpads
+          scratchpads: state?.ouroborosFlight.scratchpads,
+          scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
         }
       }
     })

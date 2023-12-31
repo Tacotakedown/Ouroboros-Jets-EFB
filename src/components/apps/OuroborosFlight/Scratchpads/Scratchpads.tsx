@@ -1,16 +1,24 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Scratchpads.scss'
 import { ScratchpadHeader } from './ScratchpadHeader'
 import { ScratchpadPopup } from './ScratchpadPopup'
 import { E_scratchpadTypes } from './scratchpadTypes'
 import { AppContext } from '../../appRouter/appRouter'
 import { CanvasPath, ReactSketchCanvas, ReactSketchCanvasRef } from 'react-sketch-canvas'
-import DOMPurify from 'dompurify'
+import { RenderSvgFromString } from '../../../common/util/dangerousLoader'
 import { SpBGCraft, SpPopoutIcon } from './ScratchpadIcons'
+import { getBackground } from './ScratchpadBackground'
+import { getSvg } from './getSvg'
+import { Color, ColorResult, SketchPicker } from 'react-color'
 
 export type T_Scratchpad = {
   type: E_scratchpadTypes
   content: CanvasPath[]
+  preview: string
+}
+export type T_ScratchpadPenSettings = {
+  size: number
+  color: string
 }
 
 export const Scratchpads = () => {
@@ -22,6 +30,7 @@ export const Scratchpads = () => {
   const [popupPosition, setPopupPosition] = React.useState({ x: 0, y: 0 })
   const [activeScratchpad, setActiveScratchpad] = React.useState<T_Scratchpad | null>(null)
   const [activeSpNumber, setActiveSpNumber] = React.useState<number>(0)
+  const [penSettings, setPenSettings] = React.useState<T_ScratchpadPenSettings>({ color: 'white', size: 5 })
 
   const scratchpads: T_Scratchpad[] = state?.ouroborosFlight.scratchpads ?? []
   const setScratchpads = (scratchpads: T_Scratchpad[]): void => {
@@ -34,20 +43,11 @@ export const Scratchpads = () => {
           currentAirport: state?.ouroborosFlight.currentAirport,
           favorites: state?.ouroborosFlight.favorites,
           darkMode: state?.ouroborosFlight.darkMode,
-          scratchpads: scratchpads
+          scratchpads: scratchpads,
+          scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
         }
       }
     })
-  }
-
-  type T_RenderSvgFromStringProps = {
-    element: string
-  }
-  const RenderSvgFromString: React.FC<T_RenderSvgFromStringProps> = (
-    props: T_RenderSvgFromStringProps
-  ): JSX.Element => {
-    const sanitizedString = DOMPurify.sanitize(props.element)
-    return <div dangerouslySetInnerHTML={{ __html: sanitizedString }} />
   }
 
   const useOutsidePopupAlerter = (ref: any, setTheState: (value: React.SetStateAction<boolean>) => void) => {
@@ -63,13 +63,38 @@ export const Scratchpads = () => {
       }
     }, [ref])
   }
+
+  ///////////////// Fuctions for dealing with content array
+  const updateContentAndPreview = (index: number, content: CanvasPath[], svg: string): void => {
+    if (index >= 0 && index < scratchpads.length) {
+      const updatedArray = [...scratchpads]
+      updatedArray[index] = { type: updatedArray[index].type, content: content, preview: svg }
+      setScratchpads(updatedArray)
+    }
+  }
+  const addScratchpad = (type: E_scratchpadTypes): void => {
+    const newScratchpad = { type: type, content: [], preview: '' }
+    setScratchpads([...scratchpads, newScratchpad])
+  }
+  const removeScratchpad = (index: number): void => {
+    if (index >= 0 && index < scratchpads.length) {
+      const updatedScratchpads = [...scratchpads]
+      updatedScratchpads.splice(index, 1)
+      setScratchpads(updatedScratchpads)
+    }
+  }
+  ///////////////////////////////////////////////////////////////////////////////
+
+  //////// Refs for canvas and tracking need to unrender when clicked off component
   const canvasRef: React.RefObject<ReactSketchCanvasRef> = useRef<ReactSketchCanvasRef>(null)
   const popupRef = React.useRef(null)
   const confirmRef = React.useRef(null)
 
   useOutsidePopupAlerter(popupRef, setAddMenu)
   useOutsidePopupAlerter(confirmRef, setConfirmDeleteAll)
+  //////////////////////////////////////
 
+  /////////////////// Button onClick defs ////////////////////////
   const addScratchpadClick = (event: any): void => {
     if (addMenu == false) {
       const buttonRect = event.target.getBoundingClientRect()
@@ -98,95 +123,48 @@ export const Scratchpads = () => {
     setActiveSpNumber(index)
     setShowScratchpad(true)
   }
-  React.useEffect(() => {
-    if (showScratchpad) {
-      canvasRef.current?.loadPaths(state?.ouroborosFlight?.scratchpads?.[activeSpNumber]?.content ?? [])
-    }
-  }, [showScratchpad, activeSpNumber, state])
 
-  const [svgArray, setSvgArray] = useState<string[]>([]) // THIS CANNOT BE STORED IN THIS COMPONENT, IT NEEDS THE SAME HEIARCY OF THE SCRATCHPAD CONTENT STATE IN THE USECONTEXT OR ELSE THERE WILL BE A MISMATCH IN ARRAY LENGTH WHEN RE REDNDERING THIS COMPONENT (IT WILL NOT NOT NOT NOT NOT NOT NOT NOT WORK) still too lazy to fix rn
-
-  const svgArrayPush = (input: string): void => {
-    const newArray = [...svgArray, input]
-    setSvgArray(newArray)
+  const handlePopupClick = (addType: E_scratchpadTypes): void => {
+    addScratchpad(addType)
+    setAddMenu(false)
   }
-  const svgArrayReplaceByIndex = (indexToReplace: number, replacement: string): void => {
-    if (indexToReplace >= 0 && indexToReplace < svgArray.length) {
-      const newArray = [...svgArray]
-      newArray[indexToReplace] = replacement
-      setSvgArray(newArray)
-    }
-  }
-  const svgArrayRemoveByIndex = (indexToRemove: number): void => {
-    if (indexToRemove >= 0 && indexToRemove < svgArray.length) {
-      const newArray = [...svgArray.slice(0, indexToRemove), ...svgArray.slice(indexToRemove + 1)]
-      setSvgArray(newArray)
-    }
-  }
-
-  const getSvg = async (): Promise<string | undefined> => {
-    try {
-      if (canvasRef.current) {
-        const svg = await canvasRef.current.exportSvg()
-        return svg
-      }
-    } catch (e) {
-      console.error(e)
-    }
-
-    return undefined
-  }
-  // we can export the svg and pair it with a key in an object then use it to display a preview
 
   const closeScratchpad = (): void => {
     if (canvasRef.current !== null && canvasRef.current !== undefined) {
       canvasRef.current.exportPaths().then((paths) => {
         if (paths !== undefined) {
-          updateContent(activeSpNumber, paths)
+          getSvg(canvasRef)
+            .then((svg) => {
+              if (svg !== undefined) {
+                updateContentAndPreview(activeSpNumber, paths, svg)
+              }
+            })
+            .catch((error) => {
+              console.error(error)
+            })
         }
       })
-
-      getSvg()
-        .then((svg) => {
-          if (svg !== undefined) {
-            svgArrayReplaceByIndex(activeSpNumber, svg)
-          }
-        })
-        .catch((error) => {
-          console.error(error)
-        })
     }
 
     setActiveScratchpad(null)
     setShowScratchpad(false)
     setActiveSpNumber(0)
   }
+  /////////////////////////////////////////////////////////////////////////////////////
 
-  const updateContent = (index: number, content: CanvasPath[]): void => {
-    if (index >= 0 && index < scratchpads.length) {
-      const updatedArray = [...scratchpads]
-      updatedArray[index] = { type: updatedArray[index].type, content: content }
-      setScratchpads(updatedArray)
-    }
-  }
+  ///////////////////////// Functions for dealing with pen color and size ///////////////////
 
-  const addScratchpad = (type: E_scratchpadTypes): void => {
-    const newScratchpad = { type: type, content: [] }
-    setScratchpads([...scratchpads, newScratchpad])
-    svgArrayPush('')
-  }
-  const removeScratchpad = (index: number): void => {
-    if (index >= 0 && index < scratchpads.length) {
-      svgArrayRemoveByIndex(index)
-      const updatedScratchpads = [...scratchpads]
-      updatedScratchpads.splice(index, 1)
-      setScratchpads(updatedScratchpads)
+  // const onPenColorChange = (color) => {
+  //   setPenSettings({ size: penSettings.size, color: color })
+  // }
+
+  ///////////////////////// useEffect to load paths for selected scratchpad on load //////////////////
+  React.useEffect(() => {
+    if (showScratchpad) {
+      canvasRef.current?.loadPaths(state?.ouroborosFlight?.scratchpads?.[activeSpNumber]?.content ?? [])
     }
-  }
-  const handlePopupClick = (addType: E_scratchpadTypes): void => {
-    addScratchpad(addType)
-    setAddMenu(false)
-  }
+  }, [showScratchpad, activeSpNumber, state])
+
   return (
     <div>
       <ScratchpadHeader
@@ -208,11 +186,9 @@ export const Scratchpads = () => {
                   className="sp-item-container"
                 >
                   <div>{s.type}</div>
-                  <div className="mini-preset-positioner">
-                    <SpBGCraft width={300} />
-                  </div>
+                  <div className="mini-preset-positioner">{getBackground(s.type)}</div>
                   <div className="mini-content-positioner">
-                    <RenderSvgFromString element={svgArray[index]} />
+                    <RenderSvgFromString element={state?.ouroborosFlight.scratchpads?.[index].preview ?? ''} />
                   </div>
                   {editMode ? (
                     <div
@@ -273,17 +249,19 @@ export const Scratchpads = () => {
           </div>
 
           <div className="canvas-container">
+            {/* <div>
+              <SketchPicker color={penSettings.color} onChangeComplete={onPenColorChange} />
+            </div> */}
             <div className="bg-positioner">
               <SpBGCraft width={1800} />
             </div>
             <div className="canvas-positioner">
               <ReactSketchCanvas
-                exportWithBackgroundImage
                 canvasColor="transparent"
                 style={{ border: 'none' }}
                 ref={canvasRef}
-                strokeWidth={5}
-                strokeColor="white"
+                strokeWidth={penSettings.size}
+                strokeColor={penSettings.color}
               />
             </div>
           </div>

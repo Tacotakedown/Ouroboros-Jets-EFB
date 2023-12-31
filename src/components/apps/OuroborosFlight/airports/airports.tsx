@@ -89,10 +89,6 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
     })
   }, [state?.ouroborosFlight.currentAirport])
 
-  useEffect(() => {
-    console.log(stationInfo)
-  }, [stationInfo])
-
   const apiToken = process.env.AIRPORT_API_KEY
   const changeAirport = (airport: string): void => {
     updateState({
@@ -104,7 +100,8 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
           currentAirport: airport,
           favorites: state?.ouroborosFlight.favorites,
           darkMode: state?.ouroborosFlight.darkMode,
-          scratchpads: state?.ouroborosFlight.scratchpads
+          scratchpads: state?.ouroborosFlight.scratchpads,
+          scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
         }
       }
     })
@@ -121,7 +118,8 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
           currentAirport: state?.ouroborosFlight.currentAirport,
           favorites: favorites,
           darkMode: state?.ouroborosFlight.darkMode,
-          scratchpads: state?.ouroborosFlight.scratchpads
+          scratchpads: state?.ouroborosFlight.scratchpads,
+          scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
         }
       }
     })
@@ -143,7 +141,8 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
           currentAirport: state?.ouroborosFlight.currentAirport,
           favorites: newFavorites,
           darkMode: state?.ouroborosFlight.darkMode,
-          scratchpads: state?.ouroborosFlight.scratchpads
+          scratchpads: state?.ouroborosFlight.scratchpads,
+          scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
         }
       }
     })

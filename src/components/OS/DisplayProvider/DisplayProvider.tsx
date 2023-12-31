@@ -20,7 +20,8 @@ export const DisplayProvider = (): JSX.Element => {
             currentAirport: 'KPHX',
             favorites: [''],
             darkMode: false,
-            scratchpads: []
+            scratchpads: [],
+            scratchpadSvg: []
           }
         }
       })

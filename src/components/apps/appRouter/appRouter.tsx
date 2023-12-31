@@ -9,6 +9,7 @@ type T_AppContextType = {
     favorites: string[] | undefined
     darkMode: boolean | undefined
     scratchpads: T_Scratchpad[] | undefined
+    scratchpadSvg: string[] | undefined
   }
 }
 const defaultAppContextValues: T_AppContextType = {
@@ -18,7 +19,8 @@ const defaultAppContextValues: T_AppContextType = {
     currentAirport: 'KPHX',
     favorites: [],
     darkMode: false,
-    scratchpads: []
+    scratchpads: [],
+    scratchpadSvg: []
   }
 }
 
@@ -35,7 +37,8 @@ const defaultState: AppState = {
       currentAirport: 'KPHX',
       favorites: [],
       darkMode: false,
-      scratchpads: []
+      scratchpads: [],
+      scratchpadSvg: []
     }
   },
   updateState: (newState?: Partial<AppState>) => {}
