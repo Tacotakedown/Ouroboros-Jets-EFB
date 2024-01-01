@@ -1,36 +1,38 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import './Scratchpads.scss'
 import { ScratchpadHeader } from './ScratchpadHeader'
 import { ScratchpadPopup } from './ScratchpadPopup'
-import { E_scratchpadTypes } from './scratchpadTypes'
+import { type E_scratchpadTypes } from './scratchpadTypes'
 import { AppContext } from '../../appRouter/appRouter'
-import { CanvasPath, ReactSketchCanvas, ReactSketchCanvasRef } from 'react-sketch-canvas'
+import { type CanvasPath, ReactSketchCanvas, type ReactSketchCanvasRef } from 'react-sketch-canvas'
 import { RenderSvgFromString } from '../../../common/util/dangerousLoader'
 import { SpBGCraft, SpPopoutIcon } from './ScratchpadIcons'
 import { getBackground } from './ScratchpadBackground'
 import { getSvg } from './getSvg'
-import { Color, ColorResult, SketchPicker } from 'react-color'
+import { type ColorResult, GithubPicker } from 'react-color'
 
 export type T_Scratchpad = {
   type: E_scratchpadTypes
   content: CanvasPath[]
   preview: string
+  timestamp: number
 }
 export type T_ScratchpadPenSettings = {
   size: number
   color: string
 }
 
-export const Scratchpads = () => {
+export const Scratchpads = (): JSX.Element => {
   const { state, updateState } = React.useContext(AppContext)
   const [editMode, setEditMode] = React.useState<boolean>(false)
   const [addMenu, setAddMenu] = React.useState<boolean>(false)
   const [showScratchpad, setShowScratchpad] = React.useState<boolean>(false)
   const [confirmDeleteAll, setConfirmDeleteAll] = React.useState<boolean>(false)
   const [popupPosition, setPopupPosition] = React.useState({ x: 0, y: 0 })
-  const [activeScratchpad, setActiveScratchpad] = React.useState<T_Scratchpad | null>(null)
+  // const [activeScratchpad, setActiveScratchpad] = React.useState<T_Scratchpad | null>(null)
   const [activeSpNumber, setActiveSpNumber] = React.useState<number>(0)
   const [penSettings, setPenSettings] = React.useState<T_ScratchpadPenSettings>({ color: 'white', size: 5 })
+  const [penColorMenu, setPenColorMenu] = React.useState<boolean>(false)
 
   const scratchpads: T_Scratchpad[] = state?.ouroborosFlight.scratchpads ?? []
   const setScratchpads = (scratchpads: T_Scratchpad[]): void => {
@@ -50,10 +52,13 @@ export const Scratchpads = () => {
     })
   }
 
-  const useOutsidePopupAlerter = (ref: any, setTheState: (value: React.SetStateAction<boolean>) => void) => {
+  const useOutsidePopupAlerter = <T extends HTMLElement>(
+    ref: React.RefObject<T>,
+    setTheState: (value: React.SetStateAction<boolean>) => void
+  ): void => {
     React.useEffect(() => {
-      const handleClickOutside = (event: any) => {
-        if (ref.current && !ref.current.contains(event.target)) {
+      const handleClickOutside = (event: MouseEvent): void => {
+        if (ref.current !== null && !ref.current.contains(event.target as Node)) {
           setTheState(false)
         }
       }
@@ -64,16 +69,22 @@ export const Scratchpads = () => {
     }, [ref])
   }
 
-  ///////////////// Fuctions for dealing with content array
+  // Fuctions for dealing with content array //
   const updateContentAndPreview = (index: number, content: CanvasPath[], svg: string): void => {
     if (index >= 0 && index < scratchpads.length) {
       const updatedArray = [...scratchpads]
-      updatedArray[index] = { type: updatedArray[index].type, content: content, preview: svg }
+      updatedArray[index] = {
+        type: updatedArray[index].type,
+        content: content,
+        preview: svg,
+        timestamp: updatedArray[index].timestamp
+      }
       setScratchpads(updatedArray)
     }
   }
   const addScratchpad = (type: E_scratchpadTypes): void => {
-    const newScratchpad = { type: type, content: [], preview: '' }
+    const date = Date.now()
+    const newScratchpad = { type: type, content: [], preview: '', timestamp: date }
     setScratchpads([...scratchpads, newScratchpad])
   }
   const removeScratchpad = (index: number): void => {
@@ -83,20 +94,20 @@ export const Scratchpads = () => {
       setScratchpads(updatedScratchpads)
     }
   }
-  ///////////////////////////////////////////////////////////////////////////////
 
-  //////// Refs for canvas and tracking need to unrender when clicked off component
+  // Refs for canvas and tracking need to unrender when clicked off component
   const canvasRef: React.RefObject<ReactSketchCanvasRef> = useRef<ReactSketchCanvasRef>(null)
   const popupRef = React.useRef(null)
   const confirmRef = React.useRef(null)
+  const colorPickerRef = React.useRef(null)
 
   useOutsidePopupAlerter(popupRef, setAddMenu)
   useOutsidePopupAlerter(confirmRef, setConfirmDeleteAll)
-  //////////////////////////////////////
+  useOutsidePopupAlerter(colorPickerRef, setPenColorMenu)
 
-  /////////////////// Button onClick defs ////////////////////////
+  // Button onClick defs //
   const addScratchpadClick = (event: any): void => {
-    if (addMenu == false) {
+    if (!addMenu) {
       const buttonRect = event.target.getBoundingClientRect()
       const buttonX = buttonRect.left
       const buttonY = buttonRect.bottom
@@ -118,8 +129,7 @@ export const Scratchpads = () => {
     setEditMode(false)
     setConfirmDeleteAll(false)
   }
-  const openScratchpad = (setInfo: T_Scratchpad, index: number): void => {
-    setActiveScratchpad(setInfo)
+  const openScratchpad = (index: number): void => {
     setActiveSpNumber(index)
     setShowScratchpad(true)
   }
@@ -131,39 +141,77 @@ export const Scratchpads = () => {
 
   const closeScratchpad = (): void => {
     if (canvasRef.current !== null && canvasRef.current !== undefined) {
-      canvasRef.current.exportPaths().then((paths) => {
-        if (paths !== undefined) {
-          getSvg(canvasRef)
-            .then((svg) => {
-              if (svg !== undefined) {
-                updateContentAndPreview(activeSpNumber, paths, svg)
-              }
-            })
-            .catch((error) => {
-              console.error(error)
-            })
-        }
-      })
+      canvasRef.current
+        .exportPaths()
+        .then((paths) => {
+          if (paths !== undefined) {
+            getSvg(canvasRef)
+              .then((svg) => {
+                if (svg !== undefined) {
+                  updateContentAndPreview(activeSpNumber, paths, svg)
+                }
+              })
+              .catch((error) => {
+                console.error(error)
+              })
+          }
+        })
+        .catch((e) => {
+          console.error(e)
+        })
     }
-
-    setActiveScratchpad(null)
     setShowScratchpad(false)
     setActiveSpNumber(0)
   }
-  /////////////////////////////////////////////////////////////////////////////////////
 
-  ///////////////////////// Functions for dealing with pen color and size ///////////////////
+  // Functions for dealing with pen color and size //
 
-  // const onPenColorChange = (color) => {
-  //   setPenSettings({ size: penSettings.size, color: color })
-  // }
+  const onPenColorChange = (color: ColorResult): void => {
+    setPenSettings({ size: penSettings.size, color: color.hex })
+  }
+  React.useEffect(() => {
+    console.log(penSettings)
+  }, [penSettings])
 
-  ///////////////////////// useEffect to load paths for selected scratchpad on load //////////////////
+  // useEffect to load paths for selected scratchpad on load //
   React.useEffect(() => {
     if (showScratchpad) {
       canvasRef.current?.loadPaths(state?.ouroborosFlight?.scratchpads?.[activeSpNumber]?.content ?? [])
     }
   }, [showScratchpad, activeSpNumber, state])
+
+  type FormatOptions = {
+    timeZone?: string
+    year?: 'numeric' | '2-digit'
+    month?: 'numeric' | '2-digit'
+    day?: 'numeric' | '2-digit'
+    hour?: 'numeric' | '2-digit'
+    minute?: 'numeric' | '2-digit'
+    hour12?: boolean
+  }
+
+  const getFormattedUTC = (timestamp: number, useToLocaleString: boolean = false, options?: FormatOptions): string => {
+    const date = new Date(timestamp)
+
+    if (isNaN(date.getTime())) return 'Invalid Timestamp'
+
+    if (useToLocaleString) {
+      const defaultOptions: FormatOptions = {
+        timeZone: 'UTC',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      }
+
+      const mergedOptions = { ...defaultOptions, ...options }
+      return date.toLocaleString('en-US', mergedOptions)
+    } else {
+      return date.toUTCString()
+    }
+  }
 
   return (
     <div>
@@ -180,12 +228,15 @@ export const Scratchpads = () => {
             {scratchpads.map((s, index: number) => {
               return (
                 <div
+                  key={index}
                   onClick={() => {
-                    editMode ? null : openScratchpad(s, index)
+                    if (!editMode) {
+                      openScratchpad(index)
+                    }
                   }}
                   className="sp-item-container"
                 >
-                  <div>{s.type}</div>
+                  <div>{getFormattedUTC(s.timestamp, true)}Z</div>
                   <div className="mini-preset-positioner">{getBackground(s.type)}</div>
                   <div className="mini-content-positioner">
                     <RenderSvgFromString element={state?.ouroborosFlight.scratchpads?.[index].preview ?? ''} />
@@ -243,15 +294,29 @@ export const Scratchpads = () => {
             >
               Clear
             </div>
+            <div className="tool-container">
+              <div
+                onClick={() => {
+                  setPenColorMenu(!penColorMenu)
+                }}
+              >
+                Color ↓
+              </div>
+              <div>Size ↓</div>
+            </div>
+
             <div className="close-sp-button" onClick={closeScratchpad}>
               close
             </div>
           </div>
 
+          {penColorMenu && (
+            <div ref={colorPickerRef} className="color-menu">
+              <GithubPicker color={penSettings.color} onChangeComplete={onPenColorChange} />
+            </div>
+          )}
+
           <div className="canvas-container">
-            {/* <div>
-              <SketchPicker color={penSettings.color} onChangeComplete={onPenColorChange} />
-            </div> */}
             <div className="bg-positioner">
               <SpBGCraft width={1800} />
             </div>
