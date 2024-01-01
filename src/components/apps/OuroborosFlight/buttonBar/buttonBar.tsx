@@ -3,7 +3,6 @@ import { ButtonBarButton } from './button'
 import './buttonBar.scss'
 import {
   AirportsIcon,
-  CabinConfigIcon,
   ChecklistsIcon,
   FlightPlanIcon,
   GroundOpsIcon,
@@ -50,12 +49,6 @@ export const ButtonBar: React.FC<T_ButtonBarProps> = (props: T_ButtonBarProps): 
         text="Flight Plan"
         to={8}
         icon={<FlightPlanIcon width={50} />}
-      />
-      <ButtonBarButton
-        setActiveButton={setActiveButton}
-        text="Cabin Config"
-        to={9}
-        icon={<CabinConfigIcon width={50} />}
       />
     </div>
   )

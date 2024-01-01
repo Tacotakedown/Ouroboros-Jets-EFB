@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ButtonBar } from './buttonBar/buttonBar'
 import { AppContext } from '../appRouter/appRouter'
 import './OuroborosFlight.scss'
-import watermark from './WATERMARK.png'
 import { Airports } from './airports/airports'
-import { NgMap } from '../../../NavigraphApi/Map'
 import { Scratchpads } from './Scratchpads/Scratchpads'
 import { GroundService } from './GroundService/GroundService'
 
@@ -46,7 +44,9 @@ export const OuroborosFlight = (): JSX.Element => {
       setLoading(false)
     }, 2000)
 
-    return () => clearTimeout(loadDelay)
+    return () => {
+      clearTimeout(loadDelay)
+    }
   })
   type T_WatermarkProps = {
     width: number

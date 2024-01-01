@@ -2,7 +2,7 @@ import { type ReactSketchCanvasRef } from 'react-sketch-canvas'
 
 export const getSvg = async (canvas: React.RefObject<ReactSketchCanvasRef>): Promise<string | undefined> => {
   try {
-    if (canvas.current) {
+    if (canvas.current !== null) {
       const svg = await canvas.current.exportSvg()
       return svg
     }

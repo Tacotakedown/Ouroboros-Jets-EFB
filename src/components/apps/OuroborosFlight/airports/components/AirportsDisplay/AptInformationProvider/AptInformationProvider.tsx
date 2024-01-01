@@ -7,6 +7,7 @@ type T_AirportInformationProviderProps = {
   isWeather?: boolean
   color?: string
   metarRaw?: string
+  backgroundColor?: string
 }
 
 export const AirportInformationProvider: React.FC<T_AirportInformationProviderProps> = (
@@ -26,10 +27,16 @@ export const AirportInformationProvider: React.FC<T_AirportInformationProviderPr
       <div className="airport-information-provider-weather">
         <div className="airport-information-provider-field-weather">{props.field}</div>
 
-        <div className="airport-information-provider-content-weather" style={{ color: props.color ?? '' }}>
+        <div
+          className="airport-information-provider-content-weather"
+          style={{ color: props.color ?? '', backgroundColor: props.backgroundColor ?? '' }}
+        >
           {props.content}
         </div>
-        <div className="airport-information-provider-metar" style={{ color: props.color ?? '' }}>
+        <div
+          className="airport-information-provider-metar"
+          style={{ color: props.color ?? '', backgroundColor: props.backgroundColor ?? '' }}
+        >
           {props.metarRaw}
         </div>
       </div>

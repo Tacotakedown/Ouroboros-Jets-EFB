@@ -1,12 +1,14 @@
+// TODO: Slider component for pen size, hook it up to commented functions and position in the styled box
+
 import React, { useRef } from 'react'
 import './Scratchpads.scss'
 import { ScratchpadHeader } from './ScratchpadHeader'
 import { ScratchpadPopup } from './ScratchpadPopup'
 import { type E_scratchpadTypes } from './scratchpadTypes'
 import { AppContext } from '../../appRouter/appRouter'
-import { type CanvasPath, ReactSketchCanvas, type ReactSketchCanvasRef } from 'react-sketch-canvas'
+import { type CanvasPath, type ReactSketchCanvasRef, ReactSketchCanvas } from 'react-sketch-canvas'
 import { RenderSvgFromString } from '../../../common/util/dangerousLoader'
-import { SpBGCraft, SpPopoutIcon } from './ScratchpadIcons'
+import { SpPopoutIcon } from './ScratchpadIcons'
 import { getBackground } from './ScratchpadBackground'
 import { getSvg } from './getSvg'
 import { type ColorResult, GithubPicker } from 'react-color'
@@ -29,10 +31,11 @@ export const Scratchpads = (): JSX.Element => {
   const [showScratchpad, setShowScratchpad] = React.useState<boolean>(false)
   const [confirmDeleteAll, setConfirmDeleteAll] = React.useState<boolean>(false)
   const [popupPosition, setPopupPosition] = React.useState({ x: 0, y: 0 })
-  // const [activeScratchpad, setActiveScratchpad] = React.useState<T_Scratchpad | null>(null)
+  const [activeScratchpad, setActiveScratchpad] = React.useState<T_Scratchpad | null>(null)
   const [activeSpNumber, setActiveSpNumber] = React.useState<number>(0)
   const [penSettings, setPenSettings] = React.useState<T_ScratchpadPenSettings>({ color: 'white', size: 5 })
   const [penColorMenu, setPenColorMenu] = React.useState<boolean>(false)
+  const [penSizeMenu, setPenSizeMenu] = React.useState<boolean>(false)
 
   const scratchpads: T_Scratchpad[] = state?.ouroborosFlight.scratchpads ?? []
   const setScratchpads = (scratchpads: T_Scratchpad[]): void => {
@@ -100,10 +103,12 @@ export const Scratchpads = (): JSX.Element => {
   const popupRef = React.useRef(null)
   const confirmRef = React.useRef(null)
   const colorPickerRef = React.useRef(null)
+  const penSizeRef = React.useRef(null)
 
   useOutsidePopupAlerter(popupRef, setAddMenu)
   useOutsidePopupAlerter(confirmRef, setConfirmDeleteAll)
   useOutsidePopupAlerter(colorPickerRef, setPenColorMenu)
+  useOutsidePopupAlerter(penSizeRef, setPenSizeMenu)
 
   // Button onClick defs //
   const addScratchpadClick = (event: any): void => {
@@ -129,9 +134,10 @@ export const Scratchpads = (): JSX.Element => {
     setEditMode(false)
     setConfirmDeleteAll(false)
   }
-  const openScratchpad = (index: number): void => {
+  const openScratchpad = (setInfo: T_Scratchpad, index: number): void => {
     setActiveSpNumber(index)
     setShowScratchpad(true)
+    setActiveScratchpad(setInfo)
   }
 
   const handlePopupClick = (addType: E_scratchpadTypes): void => {
@@ -161,6 +167,7 @@ export const Scratchpads = (): JSX.Element => {
         })
     }
     setShowScratchpad(false)
+    setActiveScratchpad(null)
     setActiveSpNumber(0)
   }
 
@@ -169,10 +176,10 @@ export const Scratchpads = (): JSX.Element => {
   const onPenColorChange = (color: ColorResult): void => {
     setPenSettings({ size: penSettings.size, color: color.hex })
   }
-  React.useEffect(() => {
-    console.log(penSettings)
-  }, [penSettings])
 
+  // const onPenSizeChange = (value: number): void => {
+  //   setPenSettings({ size: value, color: penSettings.color })
+  // }
   // useEffect to load paths for selected scratchpad on load //
   React.useEffect(() => {
     if (showScratchpad) {
@@ -231,13 +238,13 @@ export const Scratchpads = (): JSX.Element => {
                   key={index}
                   onClick={() => {
                     if (!editMode) {
-                      openScratchpad(index)
+                      openScratchpad(s, index)
                     }
                   }}
                   className="sp-item-container"
                 >
                   <div>{getFormattedUTC(s.timestamp, true)}Z</div>
-                  <div className="mini-preset-positioner">{getBackground(s.type)}</div>
+                  <div className="mini-preset-positioner">{getBackground(s.type, 300)}</div>
                   <div className="mini-content-positioner">
                     <RenderSvgFromString element={state?.ouroborosFlight.scratchpads?.[index].preview ?? ''} />
                   </div>
@@ -268,8 +275,8 @@ export const Scratchpads = (): JSX.Element => {
       </div>
 
       {confirmDeleteAll && (
-        <div ref={confirmRef}>
-          <div>Are you Sure you want to delete ALL scratchpads?</div>
+        <div className="delete-all-container" ref={confirmRef}>
+          <div className="delete-all-text">Are you Sure you want to delete ALL scratchpads?</div>
           <div onClick={confirmDeleteAllClick}>yes</div>
         </div>
       )}
@@ -302,7 +309,13 @@ export const Scratchpads = (): JSX.Element => {
               >
                 Color ↓
               </div>
-              <div>Size ↓</div>
+              <div
+                onClick={() => {
+                  setPenSizeMenu(!penSizeMenu)
+                }}
+              >
+                Size ↓
+              </div>
             </div>
 
             <div className="close-sp-button" onClick={closeScratchpad}>
@@ -315,10 +328,14 @@ export const Scratchpads = (): JSX.Element => {
               <GithubPicker color={penSettings.color} onChangeComplete={onPenColorChange} />
             </div>
           )}
-
+          {penColorMenu && (
+            <div className="pen-size-menu" ref={penSizeRef}>
+              Set Size
+            </div>
+          )}
           <div className="canvas-container">
             <div className="bg-positioner">
-              <SpBGCraft width={1800} />
+              {activeScratchpad !== null ? getBackground(activeScratchpad.type, 1800) : ''}
             </div>
             <div className="canvas-positioner">
               <ReactSketchCanvas
