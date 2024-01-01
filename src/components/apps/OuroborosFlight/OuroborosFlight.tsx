@@ -5,6 +5,7 @@ import './OuroborosFlight.scss'
 import { Airports } from './airports/airports'
 import { Scratchpads } from './Scratchpads/Scratchpads'
 import { GroundService } from './GroundService/GroundService'
+import { WeightAndBalance } from './WeightBalance/WeightBalance'
 
 export const OuroborosFlight = (): JSX.Element => {
   const { state } = React.useContext(AppContext)
@@ -24,7 +25,7 @@ export const OuroborosFlight = (): JSX.Element => {
       case 5:
         return <div>Checklists</div>
       case 6:
-        return <div>weight & balance</div>
+        return <WeightAndBalance />
       case 7:
         return <GroundService />
       case 8:

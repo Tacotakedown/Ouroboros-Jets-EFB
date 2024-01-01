@@ -1,0 +1,22 @@
+.weightAndBalanceContainer {
+  background-color: rgb(24, 11, 41);
+  /* background-color: red; */
+  margin-left: 20px;
+  margin-top: 260px;
+  height: 1050px;
+  border-radius: 10px;
+  width: 98%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-size: 40px;
+}
+.WBsliderContainer {
+  padding-left: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+}

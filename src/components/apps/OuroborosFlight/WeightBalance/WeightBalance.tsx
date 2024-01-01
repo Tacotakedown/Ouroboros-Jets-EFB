@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import envolope from '../../img/cg_limits.png'
-import './weightAndBalance.css'
+import envolope from './cg_limits.png'
+import './weightAndBalance.scss'
 import {
   getCg,
   getFuelCG,
@@ -39,6 +39,7 @@ export const WeightAndBalance = (): JSX.Element => {
       const json = await response.json()
 
       setSimbriefData(json)
+      localStorage.setItem('simbriefData', simbriefData)
     } catch (e) {
       console.error(e)
     }
