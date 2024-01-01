@@ -11,13 +11,13 @@
 }
 .popup-container {
   position: absolute;
-  transform: translate(0px, 30px);
+  transform: translate(-150px, 30px);
   width: 280px;
   height: 200px;
 }
 .sp-item-container {
   display: flex;
-  width: 300px;
+  width: 330px;
   height: 240px;
   border: 1px solid var(--lightPurple);
   border-radius: 20px;
@@ -29,8 +29,8 @@
 }
 
 .sp-content-container {
-  padding: 30px;
-  gap: 45px;
+  padding: 50px;
+  gap: 50px;
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -44,6 +44,9 @@
   @extend .sp-item-container;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  font-size: 40px;
+  font-weight: bold;
   border: 1px solid var(--blue);
 }
 
@@ -120,8 +123,9 @@
 }
 .popout-svg {
   position: absolute;
-  width: 250px;
-  transform: translate(-15px, -30px);
+  width: 350px;
+
+  transform: translate(-15px, -30px) scale(1, 1.1);
 }
 .canvas-positioner {
   position: absolute;
@@ -138,12 +142,12 @@
 .mini-content-positioner {
   position: absolute;
   top: 0px;
-  left: 0px;
+  left: 20px;
 }
 .mini-preset-positioner {
   position: absolute;
   top: 0px;
-  left: 0px;
+  left: 20px;
 }
 .color-menu {
   position: absolute;
@@ -191,4 +195,26 @@
 }
 .delete-all-text {
   border-bottom: 1px solid var(--lightPurple);
+}
+
+@keyframes hoverAddAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.add-icon {
+  transform-origin: 50% 50%;
+  transition: 1s ease-in-out;
+}
+
+.icon-hover-animation {
+  animation: hoverAddAnimation 1s ease-in-out;
+}
+
+.icon-reset {
+  transform: rotate(0deg);
 }

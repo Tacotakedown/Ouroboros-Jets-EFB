@@ -8,7 +8,7 @@ import { type E_scratchpadTypes } from './scratchpadTypes'
 import { AppContext } from '../../appRouter/appRouter'
 import { type CanvasPath, type ReactSketchCanvasRef, ReactSketchCanvas } from 'react-sketch-canvas'
 import { RenderSvgFromString } from '../../../common/util/dangerousLoader'
-import { SpPopoutIcon } from './ScratchpadIcons'
+import { SpAddIcon, SpPopoutIcon } from './ScratchpadIcons'
 import { getBackground } from './ScratchpadBackground'
 import { getSvg } from './getSvg'
 import { type ColorResult, GithubPicker } from 'react-color'
@@ -36,8 +36,12 @@ export const Scratchpads = (): JSX.Element => {
   const [penSettings, setPenSettings] = React.useState<T_ScratchpadPenSettings>({ color: 'white', size: 5 })
   const [penColorMenu, setPenColorMenu] = React.useState<boolean>(false)
   const [penSizeMenu, setPenSizeMenu] = React.useState<boolean>(false)
+  const [addHovered, setAddHovered] = React.useState<boolean>(false)
+
+  const maxScratchpads: number = 15
 
   const scratchpads: T_Scratchpad[] = state?.ouroborosFlight.scratchpads ?? []
+
   const setScratchpads = (scratchpads: T_Scratchpad[]): void => {
     updateState({
       ...state,
@@ -110,13 +114,21 @@ export const Scratchpads = (): JSX.Element => {
   useOutsidePopupAlerter(colorPickerRef, setPenColorMenu)
   useOutsidePopupAlerter(penSizeRef, setPenSizeMenu)
 
+  const maxNumber = (limit: number, value: number): number => {
+    return value > limit ? limit : value
+  }
   // Button onClick defs //
   const addScratchpadClick = (event: any): void => {
     if (!addMenu) {
-      const buttonRect = event.target.getBoundingClientRect()
-      const buttonX = buttonRect.left
-      const buttonY = buttonRect.bottom
-      setPopupPosition({ x: buttonX, y: buttonY })
+      const buttonRect: DOMRect = event.target.getBoundingClientRect()
+      const buttonX: number = buttonRect.left
+      const buttonY: number = buttonRect.bottom
+      const buttonW: number = buttonRect.width
+      // const buttonH:number = buttonRect.height
+      const hWidth: number = 0.5 * buttonW
+      const limitX: number = maxNumber(1860, buttonX + hWidth)
+      const limitY: number = maxNumber(1200, buttonY)
+      setPopupPosition({ x: limitX, y: limitY })
       setAddMenu(true)
     }
   }
@@ -187,6 +199,10 @@ export const Scratchpads = (): JSX.Element => {
     }
   }, [showScratchpad, activeSpNumber, state])
 
+  React.useEffect(() => {
+    console.log(scratchpads.length)
+  }, [scratchpads])
+
   type FormatOptions = {
     timeZone?: string
     year?: 'numeric' | '2-digit'
@@ -220,6 +236,13 @@ export const Scratchpads = (): JSX.Element => {
     }
   }
 
+  const handleMouseEnterAdd = (): void => {
+    setAddHovered(true)
+  }
+  const handleMouseLeaveAdd = (): void => {
+    setAddHovered(false)
+  }
+
   return (
     <div>
       <ScratchpadHeader
@@ -228,6 +251,7 @@ export const Scratchpads = (): JSX.Element => {
         EditClicked={editScratchpadClick}
         isEditMode={editMode}
         DoneClicked={doneSpClicked}
+        addAvailable={scratchpads.length < 15}
       />
       <div className="sp-content-container">
         {scratchpads.length !== 0 ? (
@@ -263,12 +287,38 @@ export const Scratchpads = (): JSX.Element => {
                 </div>
               )
             })}
-            <div className="add-scratchpad-content-button" onClick={addScratchpadClick}>
-              Add Scratchpad
-            </div>
+            {scratchpads.length < maxScratchpads ? (
+              <div
+                className="add-scratchpad-content-button"
+                onClick={addScratchpadClick}
+                onMouseEnter={handleMouseEnterAdd}
+                onMouseLeave={handleMouseLeaveAdd}
+              >
+                <SpAddIcon
+                  hovered={addHovered}
+                  handleEnter={handleMouseEnterAdd}
+                  handleLeave={handleMouseLeaveAdd}
+                  width={180}
+                />
+                Add Scratchpad
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         ) : (
-          <div className="add-scratchpad-content-button" onClick={addScratchpadClick}>
+          <div
+            className="add-scratchpad-content-button"
+            onClick={addScratchpadClick}
+            onMouseEnter={handleMouseEnterAdd}
+            onMouseLeave={handleMouseLeaveAdd}
+          >
+            <SpAddIcon
+              hovered={addHovered}
+              handleEnter={handleMouseEnterAdd}
+              handleLeave={handleMouseLeaveAdd}
+              width={180}
+            />
             Add Scratchpad
           </div>
         )}
@@ -284,7 +334,7 @@ export const Scratchpads = (): JSX.Element => {
         <div
           ref={popupRef}
           className="popup-container"
-          style={{ top: `${popupPosition.y}px`, left: `${popupPosition.x}px` }}
+          style={{ top: `${popupPosition.y + 20}px`, left: `${popupPosition.x}px` }}
         >
           <SpPopoutIcon ref={popupRef} className="popout-svg" width={300} />
           <ScratchpadPopup clickHandler={handlePopupClick} />

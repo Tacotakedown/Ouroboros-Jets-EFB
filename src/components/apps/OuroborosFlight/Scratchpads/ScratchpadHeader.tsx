@@ -7,6 +7,7 @@ type T_ScratchpadHeaderProps = {
   DoneClicked: () => void
   DeleteAllClick: () => void
   isEditMode: boolean
+  addAvailable: boolean
 }
 
 export const ScratchpadHeader: React.FC<T_ScratchpadHeaderProps> = (props: T_ScratchpadHeaderProps): JSX.Element => {
@@ -22,9 +23,13 @@ export const ScratchpadHeader: React.FC<T_ScratchpadHeaderProps> = (props: T_Scr
         </div>
       )}
       {!props.isEditMode ? (
-        <div className="sp-header-add" onClick={props.AddClicked}>
-          +
-        </div>
+        props.addAvailable ? (
+          <div className="sp-header-add" onClick={props.AddClicked}>
+            +
+          </div>
+        ) : (
+          ''
+        )
       ) : (
         <div className="sp-header-delete" onClick={props.DeleteAllClick}>
           Delete All
