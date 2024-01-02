@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { T_Scratchpad } from '../OuroborosFlight/Scratchpads/Scratchpads'
+import { T_Scratchpad } from '../OuroborosFlight/Tabs/Scratchpads/Scratchpads'
 
 type T_AppContextType = {
   ouroborosFlight: {

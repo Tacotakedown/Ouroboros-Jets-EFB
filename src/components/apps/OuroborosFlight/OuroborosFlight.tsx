@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { ButtonBar } from './buttonBar/buttonBar'
+import { ButtonBar } from './Components/ButtonBar/buttonBar'
 import { AppContext } from '../appRouter/appRouter'
 import './OuroborosFlight.scss'
-import { Airports } from './airports/airports'
-import { Scratchpads } from './Scratchpads/Scratchpads'
-import { GroundService } from './GroundService/GroundService'
-import { WeightAndBalance } from './WeightBalance/WeightBalance'
+import { Airports } from './Tabs/Airports/Airports'
+import { Scratchpads } from './Tabs/Scratchpads/Scratchpads'
+import { GroundService } from './Tabs/GroundService/GroundService'
+import { WeightAndBalance } from './Tabs/WeightBalance/WeightBalance'
+import { Checklists } from './Tabs/Checklists/checklists'
 
 export const OuroborosFlight = (): JSX.Element => {
   const { state } = React.useContext(AppContext)
@@ -23,7 +24,7 @@ export const OuroborosFlight = (): JSX.Element => {
       case 4:
         return <Scratchpads />
       case 5:
-        return <div>Checklists</div>
+        return <Checklists />
       case 6:
         return <WeightAndBalance />
       case 7:

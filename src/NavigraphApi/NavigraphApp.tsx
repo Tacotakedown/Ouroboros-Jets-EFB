@@ -1,10 +1,10 @@
 import { NoPackagesFoundError, RequestFailedError } from '@navigraph/app'
-import { NavigraphPackage } from '@navigraph/packages'
+import { type NavigraphPackage } from '@navigraph/packages'
 import React, { useCallback, useState } from 'react'
 import Auth from './components/auth'
 import { useNavigraphAuth } from '../hooks/useNavigraphAuth'
 import { charts, packages } from './Navigraph'
-import { Chart } from 'navigraph/charts'
+import { type Chart } from 'navigraph/charts'
 
 const AIRPORT_ICAO = 'KPHX'
 
@@ -22,36 +22,42 @@ export const NavigraphAppPage = () => {
       if (error instanceof NoPackagesFoundError) setErrorMessage('No packages found')
       else if (error instanceof RequestFailedError) setErrorMessage('Failed to fetch packages')
       else if (error instanceof Error) setErrorMessage('An unknown error occurred')
-      else setErrorMessage('An unknown error occurred: ' + error)
+      else setErrorMessage('An unknown error occurred: ' + (error as string))
     },
     [setErrorMessage]
   )
 
-  const listCharts = () =>
-    charts
-      .getChartsIndex({ icao: AIRPORT_ICAO })
-      .then((charts) => setOutput(JSON.stringify(charts, null, 2)))
-      .catch((err) => handleNavigraphError(err))
-
-  const fetchChartsIndex = () => {
-    charts.getChartsIndex({ icao: AIRPORT_ICAO }).then((d) => d && setChartIndex(d))
+  const fetchChartsIndex = (): void => {
+    charts.getChartsIndex({ icao: AIRPORT_ICAO }).then((d: Chart[] | null) => {
+      d !== null && setChartIndex(d)
+    })
   }
 
-  const loadChart = (chart: Chart) => {
-    charts.getChartImage({ chart }).then((b) => setChartBlob(b))
+  const loadChart = (chart: Chart): void => {
+    charts.getChartImage({ chart }).then((b) => {
+      setChartBlob(b)
+    })
   }
 
-  const fetchPackage = () =>
+  const fetchPackage = async (): Promise<void> =>
     packages
       .getPackage()
-      .then((pkg) => setPackageDetails(pkg))
-      .catch((err) => handleNavigraphError(err))
+      .then((pkg) => {
+        setPackageDetails(pkg)
+      })
+      .catch((err) => {
+        handleNavigraphError(err)
+      })
 
-  const listPackages = () =>
+  const listPackages = async (): Promise<void> =>
     packages
       .listPackages()
-      .then((pkgs) => setOutput(JSON.stringify(pkgs, null, 2)))
-      .catch((err) => handleNavigraphError(err))
+      .then((pkgs) => {
+        setOutput(JSON.stringify(pkgs, null, 2))
+      })
+      .catch((err) => {
+        handleNavigraphError(err)
+      })
 
   return (
     <div>

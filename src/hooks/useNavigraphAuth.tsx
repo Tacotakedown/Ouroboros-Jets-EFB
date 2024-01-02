@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext, createContext } from 'react'
-import { User } from 'navigraph/auth'
+import { type User } from 'navigraph/auth'
 import { auth } from '../NavigraphApi/Navigraph'
 
-interface NavigraphAuthContext {
+type NavigraphAuthContext = {
   isInitialized: boolean
   user: User | null
   signIn: typeof auth.signInWithDeviceFlow
@@ -18,16 +18,16 @@ const authContext = createContext<NavigraphAuthContext>({
 
 // Provider component that wraps your app and makes the authentication state
 // available to any child component that calls useAuth().
-export function NavigraphAuthProvider({ children }: { children: React.ReactNode }) {
+export const NavigraphAuthProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const auth = useProvideAuth()
   return <authContext.Provider value={auth}>{children}</authContext.Provider>
 }
 
 // Hook for child components to access the authentication state
-export const useNavigraphAuth = () => useContext(authContext)
+export const useNavigraphAuth = (): NavigraphAuthContext => useContext(authContext)
 
 // Provider hook that creates auth object and handles state
-function useProvideAuth() {
+const useProvideAuth = (): any => {
   const [user, setUser] = useState<User | null>(null)
   const [isInitialized, setIsInitialized] = useState(false)
 

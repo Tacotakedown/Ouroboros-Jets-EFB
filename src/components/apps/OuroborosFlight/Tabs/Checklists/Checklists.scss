@@ -1,0 +1,12 @@
+.checklist-container {
+  background-color: var(--containerBackground);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.checklist-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
