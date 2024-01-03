@@ -1,9 +1,10 @@
 .checklist-header {
   width: 100%;
+  position: absolute;
   background-color: var(--darkPurple);
-  height: 100px;
+  height: 120px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--lightPurple);
+  border-bottom: 3px solid var(--lightPurple);
   justify-content: space-between;
 }

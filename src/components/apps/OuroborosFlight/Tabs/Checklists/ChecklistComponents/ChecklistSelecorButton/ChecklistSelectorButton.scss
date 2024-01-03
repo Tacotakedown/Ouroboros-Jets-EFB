@@ -1,0 +1,15 @@
+.checklist-selector-button {
+  width: 390px;
+  font-size: 32px;
+  border-radius: 20px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  padding: 10px;
+  background-color: var(--darkPurple);
+}
+.selector-button-active {
+  @extend .checklist-selector-button;
+  border: 1px solid var(--blue);
+}
