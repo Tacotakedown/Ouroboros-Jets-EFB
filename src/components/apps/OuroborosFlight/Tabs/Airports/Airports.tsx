@@ -102,6 +102,10 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
           darkMode: state?.ouroborosFlight.darkMode,
           scratchpads: state?.ouroborosFlight.scratchpads,
           scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
+        },
+        checklists: {
+          currentChecklist: state?.checklists.currentChecklist,
+          completedChecklists: state?.checklists.completedChecklists
         }
       }
     })
@@ -120,6 +124,10 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
           darkMode: state?.ouroborosFlight.darkMode,
           scratchpads: state?.ouroborosFlight.scratchpads,
           scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
+        },
+        checklists: {
+          currentChecklist: state?.checklists.currentChecklist,
+          completedChecklists: state?.checklists.completedChecklists
         }
       }
     })
@@ -143,6 +151,10 @@ export const Airports: React.FC<T_AirportsProps> = (props: T_AirportsProps): JSX
           darkMode: state?.ouroborosFlight.darkMode,
           scratchpads: state?.ouroborosFlight.scratchpads,
           scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
+        },
+        checklists: {
+          currentChecklist: state?.checklists.currentChecklist,
+          completedChecklists: state?.checklists.completedChecklists
         }
       }
     })

@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { T_Scratchpad } from '../OuroborosFlight/Tabs/Scratchpads/Scratchpads'
+import { type T_Scratchpad } from '../OuroborosFlight/Tabs/Scratchpads/Scratchpads'
 
 type T_AppContextType = {
   ouroborosFlight: {
@@ -11,6 +11,10 @@ type T_AppContextType = {
     scratchpads: T_Scratchpad[] | undefined
     scratchpadSvg: string[] | undefined
   }
+  checklists: {
+    currentChecklist: number | null | undefined
+    completedChecklists: boolean[] | undefined
+  }
 }
 const defaultAppContextValues: T_AppContextType = {
   ouroborosFlight: {
@@ -21,6 +25,10 @@ const defaultAppContextValues: T_AppContextType = {
     darkMode: false,
     scratchpads: [],
     scratchpadSvg: []
+  },
+  checklists: {
+    currentChecklist: null,
+    completedChecklists: [false, false, false, false, false, false, false, false, false, false]
   }
 }
 
@@ -39,6 +47,10 @@ const defaultState: AppState = {
       darkMode: false,
       scratchpads: [],
       scratchpadSvg: []
+    },
+    checklists: {
+      currentChecklist: null,
+      completedChecklists: [false, false, false, false, false, false, false, false, false, false]
     }
   },
   updateState: (newState?: Partial<AppState>) => {}

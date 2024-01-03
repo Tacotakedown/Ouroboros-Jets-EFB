@@ -22,6 +22,10 @@ export const DisplayProvider = (): JSX.Element => {
             darkMode: false,
             scratchpads: [],
             scratchpadSvg: []
+          },
+          checklists: {
+            currentChecklist: null,
+            completedChecklists: [false, false, false, false, false, false, false, false, false, false]
           }
         }
       })

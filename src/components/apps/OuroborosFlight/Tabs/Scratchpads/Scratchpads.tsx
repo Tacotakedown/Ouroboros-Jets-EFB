@@ -54,6 +54,10 @@ export const Scratchpads = (): JSX.Element => {
           darkMode: state?.ouroborosFlight.darkMode,
           scratchpads: scratchpads,
           scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
+        },
+        checklists: {
+          currentChecklist: state?.checklists.currentChecklist,
+          completedChecklists: state?.checklists.completedChecklists
         }
       }
     })
@@ -198,10 +202,6 @@ export const Scratchpads = (): JSX.Element => {
       canvasRef.current?.loadPaths(state?.ouroborosFlight?.scratchpads?.[activeSpNumber]?.content ?? [])
     }
   }, [showScratchpad, activeSpNumber, state])
-
-  React.useEffect(() => {
-    console.log(scratchpads.length)
-  }, [scratchpads])
 
   type FormatOptions = {
     timeZone?: string

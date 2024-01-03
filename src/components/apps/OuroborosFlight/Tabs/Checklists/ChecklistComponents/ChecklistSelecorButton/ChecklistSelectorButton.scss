@@ -1,15 +1,43 @@
 .checklist-selector-button {
-  width: 390px;
-  font-size: 32px;
-  border-radius: 20px;
-  height: 100px;
+  position: absolute;
+  width: 400px;
+  font-size: 30px;
+  border-radius: 10px;
+  height: 40px;
   display: flex;
   align-items: center;
-  justify-self: center;
+  justify-content: space-between;
+  gap: 15px;
   padding: 10px;
-  background-color: var(--darkPurple);
+  background-color: var(--checklistButtonPurple);
 }
 .selector-button-active {
   @extend .checklist-selector-button;
-  border: 1px solid var(--blue);
+  background-color: var(--blue);
+  width: 435px;
+  transition: 0.1s ease;
+}
+.checklist-selector-button-divider-above {
+  @extend .checklist-selector-button;
+  margin-top: 10px;
+}
+.checklist-selector-left-text {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 15px;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fade-in-anim {
+  animation: fadeIn 0.2s;
+}
+.arrow-force-hide {
+  opacity: 0;
 }

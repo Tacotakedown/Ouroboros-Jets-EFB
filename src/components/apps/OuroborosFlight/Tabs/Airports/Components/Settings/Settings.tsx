@@ -35,6 +35,10 @@ export const Settings: React.FC<T_SettingsProps> = (props: T_SettingsProps): JSX
           darkMode: darkMode,
           scratchpads: state?.ouroborosFlight.scratchpads,
           scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
+        },
+        checklists: {
+          currentChecklist: state?.checklists.currentChecklist,
+          completedChecklists: state?.checklists.completedChecklists
         }
       }
     })

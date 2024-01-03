@@ -29,6 +29,10 @@ export const ButtonBarButton: FC<T_ButtonBarButtonProps> = (props: T_ButtonBarBu
           darkMode: state?.ouroborosFlight.darkMode,
           scratchpads: state?.ouroborosFlight.scratchpads,
           scratchpadSvg: state?.ouroborosFlight.scratchpadSvg
+        },
+        checklists: {
+          currentChecklist: state?.checklists.currentChecklist,
+          completedChecklists: state?.checklists.completedChecklists
         }
       }
     })
