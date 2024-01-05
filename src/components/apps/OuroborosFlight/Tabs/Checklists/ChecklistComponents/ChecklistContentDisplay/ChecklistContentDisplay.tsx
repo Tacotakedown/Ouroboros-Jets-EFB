@@ -2,6 +2,8 @@ import React from 'react'
 import { type T_ChecklistContent } from '../../ChecklistContent/ChecklistContent'
 import './ChecklistContentDisplay.scss'
 import { ChecklistItemDisplay } from '../ChecklistItemDisplay/ChecklistItemDisplay'
+import { ChecklistContentHeader } from '../ChecklistContentHeader/ChecklistContentHeader'
+import { CompleteChecklistButton } from '../CompleteChecklistButton/CompleteChecklistButton'
 
 type T_ChecklistContentDisplayProps = {
   checklist: T_ChecklistContent[]
@@ -29,6 +31,7 @@ export const ChecklistContentDisplay: React.FC<T_ChecklistContentDisplayProps> =
       if (currentChecklist.Challenge[i].isCaution) {
         checklistItems.push(
           <ChecklistItemDisplay
+            details={null}
             key={i}
             Challenge={challenge}
             action={action}
@@ -40,6 +43,7 @@ export const ChecklistContentDisplay: React.FC<T_ChecklistContentDisplayProps> =
       } else if (currentChecklist.Challenge[i].isNote) {
         checklistItems.push(
           <ChecklistItemDisplay
+            details={null}
             key={i}
             Challenge={challenge}
             action={action}
@@ -51,6 +55,7 @@ export const ChecklistContentDisplay: React.FC<T_ChecklistContentDisplayProps> =
       } else if (currentChecklist.Challenge[i].isDivider) {
         checklistItems.push(
           <ChecklistItemDisplay
+            details={null}
             key={i}
             Challenge={challenge}
             action={action}
@@ -62,6 +67,7 @@ export const ChecklistContentDisplay: React.FC<T_ChecklistContentDisplayProps> =
       } else {
         checklistItems.push(
           <ChecklistItemDisplay
+            details={currentChecklist.Challenge[i].details}
             key={i}
             Challenge={challenge}
             action={action}
@@ -76,35 +82,17 @@ export const ChecklistContentDisplay: React.FC<T_ChecklistContentDisplayProps> =
 
   return (
     <div className="checklist-content-display-container">
-      <div className="checklist-content-header">
-        <div>Challenge</div>
-        <div className="cl-content-header-sep"></div>
-        <div>Action</div>
-        <div className="cl-content-header-sep"></div>
-        <div>Performed By</div>
-      </div>
+      <ChecklistContentHeader
+        field1="Challenge"
+        field2="Action"
+        field3={props.checklist[props.currentChecklist].isAnsweredBy ? 'Answered By' : 'Performed By'}
+      />
       {getChecklistItem()}
-      <div style={{ position: 'relative' }}>
-        {!checklistCompleted ? (
-          <div
-            className="checklist-content-completeButton"
-            onClick={() => {
-              props.handleComplete(props.currentChecklist ?? 0, true)
-            }}
-          >
-            Complete Checklist
-          </div>
-        ) : (
-          <div
-            className="checklist-content-completeButton"
-            onClick={() => {
-              props.handleComplete(props.currentChecklist ?? 0, false)
-            }}
-          >
-            Mark Incomplete
-          </div>
-        )}
-      </div>
+      <CompleteChecklistButton
+        handleComplete={props.handleComplete}
+        checklistCompleted={checklistCompleted}
+        currentChecklist={props.currentChecklist}
+      />
     </div>
   )
 }

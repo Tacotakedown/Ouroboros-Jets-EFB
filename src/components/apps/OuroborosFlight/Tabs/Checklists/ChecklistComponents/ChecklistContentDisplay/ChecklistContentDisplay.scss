@@ -1,5 +1,4 @@
 .checklist-content-display-container {
-  padding-left: 20px;
   width: 100%;
 
   overflow-y: scroll;
@@ -8,39 +7,7 @@
   height: 1170px;
   // background-color: red;
 }
-.checklist-content-header {
-  display: flex;
-  flex-direction: row;
-  margin-left: 115px;
-  width: 90%;
-  height: 75px;
-  justify-content: space-around;
-  align-items: center;
-  // background-color: red;
-  margin-top: 8px;
-  &:nth-child(1) {
-    font-size: 40px;
-    color: #9182bf;
-  }
-}
-.cl-content-header-sep {
-  height: 60px;
-  width: 5px;
-  background-color: var(--lightPurple);
-  border-radius: 4px;
-}
-.checklist-content-completeButton {
-  position: absolute;
-  width: 740px;
-  height: 90px;
-  // background-color: red;
-  border: 8px solid var(--blue);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  left: 390px;
-}
+
 .checklist-select-a-checklist {
   width: 100%;
   display: flex;
@@ -49,4 +16,34 @@
   color: #9182bf;
   font-size: 40px;
   padding-left: 20px;
+}
+@keyframes open-dropdown {
+  from {
+    max-height: 0;
+    color: transparent;
+  }
+
+  to {
+    max-height: 2000px; // Set a value large enough to accommodate your content
+  }
+}
+.info-dropdown {
+  background-color: #0a001e;
+  padding: 10px;
+  padding-left: 100px;
+  padding-right: 100px;
+  animation: open-dropdown 0.2s ease-in-out;
+}
+.item-icon-container {
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.item-icon-container-filler {
+  width: 80px;
+  height: 10px;
+}
+.text-bounding-box {
+  width: 400px;
 }

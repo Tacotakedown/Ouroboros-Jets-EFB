@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { AppContext } from '../../../appRouter/appRouter'
 import { ChecklistHeader } from './ChecklistComponents/ChecklistHeader/ChecklistHeader'
 import './Checklists.scss'

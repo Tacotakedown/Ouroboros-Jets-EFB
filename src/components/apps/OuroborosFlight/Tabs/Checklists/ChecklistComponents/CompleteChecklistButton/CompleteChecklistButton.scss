@@ -1,0 +1,26 @@
+.checklist-content-completeButton-complete {
+  margin-top: 20px;
+  position: absolute;
+  width: 740px;
+  height: 90px;
+  border: 8px solid var(--ifrRed);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 390px;
+  transition: 0.3s;
+  &:hover {
+    background-color: var(--ifrRed);
+
+    transition: 0.3s;
+  }
+}
+.checklist-content-completeButton-incomplete {
+  @extend .checklist-content-completeButton-complete;
+  border: 8px solid var(--blue);
+  &:hover {
+    background-color: var(--blue);
+    transition: 0.3s;
+  }
+}

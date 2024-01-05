@@ -23,7 +23,7 @@ export const ChecklistSelectorButton: React.FC<T_ChecklistSelectorButtonProps> =
     } else {
       setTimeout(() => {
         setShowArrow(active)
-      }, 200)
+      }, 100)
     }
   }, [active])
 
