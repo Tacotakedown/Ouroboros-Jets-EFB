@@ -7,6 +7,7 @@ import { Scratchpads } from './Tabs/Scratchpads/Scratchpads'
 import { GroundService } from './Tabs/GroundService/GroundService'
 import { WeightAndBalance } from './Tabs/WeightBalance/WeightBalance'
 import { Checklists } from './Tabs/Checklists/checklists'
+import { NgMap } from '../../../NavigraphApi/Map'
 
 export const OuroborosFlight = (): JSX.Element => {
   const { state } = React.useContext(AppContext)
@@ -15,8 +16,8 @@ export const OuroborosFlight = (): JSX.Element => {
     switch (state?.ouroborosFlight.page) {
       case 0:
         return <Airports />
-      // case 1:
-      //   return <NgMap />
+      case 1:
+        return <NgMap />
       // case 2:
       //   return <div>plates</div>
       // case 3:

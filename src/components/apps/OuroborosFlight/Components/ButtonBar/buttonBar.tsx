@@ -19,6 +19,7 @@ type T_ButtonBarProps = {
 }
 export const ButtonBar: React.FC<T_ButtonBarProps> = (props: T_ButtonBarProps): JSX.Element => {
   const [activeButton, setActiveButton] = React.useState<number>(0)
+  // map issue: navigraph scope for tiles is not worrking currently unable to do maps for now, codebase is here for when it is fixed
   return (
     <div className="button-bar">
       <ButtonBarButton setActiveButton={setActiveButton} text="Airports" to={0} icon={<AirportsIcon width={20} />} />
