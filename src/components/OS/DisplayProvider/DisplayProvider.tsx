@@ -39,7 +39,9 @@ export const DisplayProvider = (): JSX.Element => {
       case 1:
         return <OuroborosFlight />
       case 2:
-        return <NavigraphAppPage />
+        return <div>Chrome</div>
+      case 3:
+        return <div>Configurator</div>
       default:
         return <OsHome />
     }
